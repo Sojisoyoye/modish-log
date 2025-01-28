@@ -1,0 +1,38 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: inventory
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    ports:
+      - '3000:3000'
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      DB_DATABASE: inventory
+
+  frontend:
+    build: ./frontend
+    ports:
+      - '3001:3000'
+    depends_on:
+      - backend
+    stdin_open: true
+    environment:
+      CHOKIDAR_USEPOLLING: 'true'
+
+volumes:
+  postgres_data:

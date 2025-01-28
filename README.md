@@ -2,6 +2,17 @@
 
 MODISH LOG/INVENTORY
 
+Run the following command in the root directory:
+
+
+docker-compose up --build
+
+Backend: http://localhost:3000
+
+Frontend: http://localhost:3001
+
+
+
 # modish-inventory
 
 Create history to show sales date change in stock and all
