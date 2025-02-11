@@ -30,6 +30,9 @@ const handleSignOut = () => {
             <Button color="inherit" component={Link} to="/products">
               Products
             </Button>
+            <Button color="inherit" component={Link} to="/add-sale">
+              Add Sale
+              </Button>
             {user.role === 'Admin' && (
                 <>
               <Button color="inherit" component={Link} to="/create-user">
