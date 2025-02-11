@@ -4,13 +4,36 @@ MODISH LOG/INVENTORY
 
 Run the following command in the root directory:
 
+**To run the app together with docker compose, ensure there is database, backend and frontend set up in the docker compose file**
 
-docker-compose up --build
+`docker-compose up --build`
 
-Backend: http://localhost:3000
+subsequentely run:
 
-Frontend: http://localhost:3001
+`docker-compose up`
 
+Backend: http://localhost:3001
+
+Frontend: http://localhost:3000
+
+
+**To run the app seperately**
+
+- To run the database, comment out the backend and frontend docker setups, then from the root folder, run:
+
+`docker-compose up`
+
+- For backend, cd into backend folder and run:
+
+`npm run start:dev`
+
+- For frontend, cd into frontend folder and run:
+
+`nmp start`
+
+
+
+docker-compose up
 
 
 # modish-inventory
@@ -49,3 +72,60 @@ validate that negative value can not be entered for update product
 - User can login
 - User can log out
 - User can reset password
+
+
+**To run Migration**
+
+Run the command 
+
+`npm run typeorm:migration:generate -- ./src/migrations/Filename`
+
+Example:
+`npm run typeorm:migration:generate -- ./src/migrations/UpdateProductPriceColumn`
+
+*POST /products*
+```
+{
+  "color": "Akala",
+  "size": "0.5mm by 21mm",
+  "quantity": 100,
+  "price": 10.50
+}
+```
+
+```
+const product = this.productsRepository.create({
+  color: 'Akala',
+  size: '0.5mm by 21mm',
+  price: 10.50, // Must have 2 decimal places
+  quantity: 100,
+});
+await this.productsRepository.save(product);
+```
+
+*Updating a Product*
+
+```
+await this.productsRepository.update(id, {
+  price: 15.75, // Must have 2 decimal places
+});
+```
+
+*POST /sales*
+
+```
+{
+  "productId": 1,
+  "quantitySold": 5
+}
+```
+
+*POST /users*
+
+```
+{
+  "username": "admin",
+  "password": "password123",
+  "role": "Admin"
+}
+```

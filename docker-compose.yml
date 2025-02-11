@@ -11,28 +11,37 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  backend:
-    build: ./backend
-    ports:
-      - '3000:3000'
-    depends_on:
-      - db
-    environment:
-      DB_HOST: db
-      DB_PORT: 5432
-      DB_USERNAME: postgres
-      DB_PASSWORD: postgres
-      DB_DATABASE: inventory
+  # backend:
+  #   build: ./backend
+  #   ports:
+  #     - '3000:3000'
+  #   volumes:
+  #     - ./backend:/app # Sync backend code
+  #     - /app/node_modules # Exclude node_modules from sync
+  #   depends_on:
+  #     - db
+  #   environment:
+  #     DB_HOST: db
+  #     DB_PORT: 5432
+  #     DB_USERNAME: postgres
+  #     DB_PASSWORD: postgres
+  #     DB_DATABASE: inventory
+  #   command: npm run start:dev # Run in watch mode
 
-  frontend:
-    build: ./frontend
-    ports:
-      - '3001:3000'
-    depends_on:
-      - backend
-    stdin_open: true
-    environment:
-      CHOKIDAR_USEPOLLING: 'true'
+
+  # frontend:
+  #   build: ./frontend
+  #   ports:
+  #     - '3001:3000'
+  #   volumes:
+  #     - ./frontend:/app # Sync frontend code
+  #     - /app/node_modules # Exclude node_modules from sync
+  #   depends_on:
+  #     - backend
+  #   stdin_open: true
+  #   environment:
+  #     CHOKIDAR_USEPOLLING: 'true' # Enable file watching in Docker
+  #   command: npm start # Run in development mode
 
 volumes:
   postgres_data:

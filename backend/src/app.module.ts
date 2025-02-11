@@ -6,6 +6,10 @@ import { User } from './users/users.entity';
 import { UsersModule } from './users/users.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { Sale } from './sales/sales.entity';
+import { Product } from './products/products.entity';
+import { ProductsModule } from './products/products.module';
+import { SalesModule } from './sales/sales.module';
 
 @Module({
   imports: [
@@ -23,12 +27,14 @@ import { AppService } from './app.service';
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_DATABASE'),
-        entities: [User],
+        entities: [User, Product, Sale],
         synchronize: true, // Disable in production
       }),
     }),
     AuthModule,
-    UsersModule
+    UsersModule,
+    ProductsModule,
+    SalesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

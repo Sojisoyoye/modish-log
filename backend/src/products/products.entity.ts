@@ -3,7 +3,7 @@ import { Sale } from '../sales/sales.entity';
 
 @Entity()
 export class Product {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id!: number;
 
   @Column()
@@ -15,7 +15,7 @@ export class Product {
   @Column()
   quantity!: number; // Current stock
 
-  @Column({ nullable: true })
+  @Column('decimal', { precision: 10, scale: 2 }) // Price with 10 digits total and 2 decimal places
   price!: number; // Optional: Price per unit
 
   @OneToMany(() => Sale, (sale) => sale.product)
