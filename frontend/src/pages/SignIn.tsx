@@ -2,16 +2,14 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Typography, Paper, Container } from '@mui/material';
 import axios from 'axios';
+import { useUser } from '../context/user.context';
 
-interface SignInProps {
-  onSignIn: () => void; // Callback function to handle successful sign-in
-}
-
-const SignIn: React.FC<SignInProps> = ({ onSignIn }) => {
+const SignIn: React.FC = () => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
   const navigate = useNavigate();
+  const { setUser } = useUser();
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,8 +18,9 @@ const SignIn: React.FC<SignInProps> = ({ onSignIn }) => {
         username,
         password,
       });
+      setUser({ id: response.data.id, username: response.data.username, role: response.data.role }); // Store user data in context
       localStorage.setItem('access_token', response.data.access_token); // Store the token
-      onSignIn(); // Call the onSignIn callback
+      navigate('/');
     } catch (err) {
       setError('Invalid credentials');
     }
