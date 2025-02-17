@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TextField, Button, Typography, Paper, Container, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
+import { TextField, Button, Typography, Paper, Container, MenuItem, Select, InputLabel, FormControl, FormControlLabel, Checkbox } from '@mui/material';
 import { addSale, getProducts } from '../api/api';
 
 interface Product {
@@ -12,14 +12,19 @@ interface Product {
 }
 
 const AddSale: React.FC = () => {
-  // const [product, setProduct] = useState<Product>({ id: '', color: '', size: '', price: 0, quantity: 0 });
-  const [productId, setProductId] = useState<string>('');
-
-  const [quantitySold, setQuantitySold] = useState<number>(0);
+  // const [productId, setProductId] = useState<string>('');
+  // const [quantitySold, setQuantitySold] = useState<number>(0);
+  const navigate = useNavigate();
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [products, setProducts] = useState<Product[]>([]);
   const [message, setMessage] = useState<string>('');
-  const navigate = useNavigate();
+
+  const [sale, setSale] = useState({
+    productId: '',
+    quantitySold: 0,
+    paid: false,
+    comment: '',
+  });
 
   // Fetch products on component mount
   useEffect(() => {
@@ -36,23 +41,25 @@ const AddSale: React.FC = () => {
 
   // Calculate total price when product or quantity changes
   useEffect(() => {
-    const selectedProduct = products.find((p) => p.id === productId);
-
-    // console.log('Selected product:', selectedProduct, productId, products);
+    const selectedProduct = products.find((p) => p.id === sale.productId);
     if (selectedProduct) {
-      setTotalPrice(selectedProduct.price * quantitySold);    }
-  }, [productId, quantitySold, products]);
+      setTotalPrice(selectedProduct.price * sale.quantitySold);    }
+  }, [sale.productId, sale.quantitySold, products]);
 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await addSale(productId, quantitySold);
+      await addSale(sale);
       setMessage('Sale recorded successfully!');
       navigate('/sales');
     } catch (error) {
       setMessage('Failed to record sale. Please check again.');
     }
+  };
+
+  const handleCancel = () => {
+    navigate('/sales'); // Redirect to sales list on cancel
   };
 
   return (
@@ -65,8 +72,8 @@ const AddSale: React.FC = () => {
         <FormControl fullWidth margin="normal">
             <InputLabel>Product</InputLabel>
             <Select
-              value={productId}
-              onChange={(e) => setProductId(e.target.value)}
+              value={sale.productId}
+              onChange={(e) => setSale({ ...sale, productId: e.target.value })}
               required
             >
               <MenuItem value={''}>
@@ -74,25 +81,54 @@ const AddSale: React.FC = () => {
               </MenuItem>
               {products.map((product) => (
                 <MenuItem key={product.id} value={product.id}>
-                  {product.color} ({product.size}) - ₦{product.price}
+                  {product.color} {product.size}
                 </MenuItem>
               ))}
             </Select>
 
           </FormControl>
           <TextField
+            fullWidth
+            type="number" 
             label="Quantity Sold"
+            name='quantitySold'
+            inputProps={{ step: '0.01' }}
+            value={sale.quantitySold}
+            onChange={(e) => setSale({ ...sale, quantitySold: Number(e.target.value) })}
+            margin="normal"
+          />
+           <FormControlLabel
+            control={
+              <Checkbox
+                checked={sale.paid}
+                onChange={(e) => setSale({ ...sale, paid: e.target.checked })}
+              />
+            }
+            label="Paid"
+          />
+          <TextField
+            label="Comment"
+            type="text"
             fullWidth
             margin="normal"
-            value={quantitySold}
-            onChange={(e) => setQuantitySold(Number(e.target.value))}
-            required
+            value={sale.comment}
+            onChange={(e) => setSale({ ...sale, comment: e.target.value })}
           />
           <Typography variant="body1" sx={{ marginTop: 2 }}>
             Total Price: ₦{totalPrice.toFixed(2)}
           </Typography>
           <Button type="submit" variant="contained" color="primary" fullWidth sx={{ marginTop: 2 }}>
             Record Sale
+          </Button>
+           <Button
+            type="button"
+            variant="outlined"
+            color="secondary"
+            fullWidth
+            sx={{ marginTop: 2 }}
+            onClick={handleCancel}
+          >
+          Cancel
           </Button>
         </form>
         {message && (

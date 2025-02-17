@@ -8,12 +8,13 @@ export class ProductsController {
 
   @Get()
   async findAll(): Promise<Product[]> {
-    return this.productsService.findAll();
+    return await this.productsService.findAll();
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: number): Promise<Product| null> {
-    return this.productsService.findOne(id);
+  async findOne(@Param('id') id: string): Promise<Product| null> {
+    const product = await this.productsService.findOne(id)
+    return product;
   }
 
   @Post()
@@ -22,7 +23,7 @@ export class ProductsController {
   }
 
   @Put(':id')
-  async update(@Param('id') id: number, @Body() product: Partial<Product>): Promise<Product> {
+  async update(@Param('id') id: string, @Body() product: Partial<Product>): Promise<Product> {
     const updatedProduct = await this.productsService.update(id, product);
     if (!updatedProduct) {
       throw new NotFoundException(`Product with id ${id} not found`);
@@ -31,7 +32,7 @@ export class ProductsController {
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: number): Promise<void> {
-    return this.productsService.remove(id);
+  async remove(@Param('id') id: string): Promise<void> {
+    return await this.productsService.remove(id);
   }
 }

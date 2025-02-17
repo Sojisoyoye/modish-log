@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Product, Sale } from '../dto/dto';
 
 const API_BASE_URL = 'http://localhost:3001/api';
 
@@ -27,15 +28,49 @@ export const getProducts = async () => {
   return response.data;
 };
 
-export const addSale = async (productId: string, quantitySold: number) => {
-  const response = await axios.post(`${API_BASE_URL}/sales`, {
-    productId,
-    quantitySold,
-  });
+export interface CreateSaleDto {
+  productId: string;
+  quantitySold: number;
+  paid: boolean;
+  comment: string;
+}
+
+export const addSale = async (sale: CreateSaleDto) => {
+  const response = await axios.post(`${API_BASE_URL}/sales`, { ...sale});
   return response.data;
 };
 
 export const getSales = async () => {
   const response = await axios.get(`${API_BASE_URL}/sales`);
+  return response.data;
+};
+
+export const getSale = async (id?: string) => {
+  const response = await api.get(`${API_BASE_URL}/sales/${id}`);
+  return response.data;
+};
+
+export const updateSale = async (id: string | undefined, saleData: Partial<Sale>) => {
+  const response = await api.put(`/sales/${id}`, saleData);
+  return response.data;
+};
+
+export const deleteSale = async (id: string) => {
+  const response = await api.delete(`/sales/${id}`);
+  return response.data;
+};
+
+export const getProduct = async (id?: string) => {
+  const response = await api.get(`${API_BASE_URL}/products/${id}`);
+  return response.data;
+};
+
+export const updateProduct = async (id: string | undefined, productData: Partial<Product>) => {
+  const response = await api.put(`/products/${id}`, productData);
+  return response.data;
+};
+
+export const deleteProduct = async (id: string) => {
+  const response = await api.delete(`/products/${id}`);
   return response.data;
 };

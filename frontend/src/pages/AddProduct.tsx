@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, Container, Typography, Paper } from '@mui/material';
 import { addProduct } from '../api/api';
+import { useNavigate } from 'react-router-dom';
 
 interface Product {
   color: string;
@@ -11,7 +12,9 @@ interface Product {
 
 const AddProduct: React.FC = () => {
   const [message, setMessage] = useState<string>('');
-  const [price, setPrice] = useState<number>(0.00);
+  // const [price, setPrice] = useState<number>(0.00);
+  const navigate = useNavigate();
+  
     
   const [product, setProduct] = useState<Product>({
     color: '',
@@ -38,6 +41,11 @@ const AddProduct: React.FC = () => {
         setMessage('Failed to record product. Please check the details.');
     }
   };
+
+  const handleCancel = () => {
+    navigate('/products'); // Redirect to products list on cancel
+  };
+
 
   return (
     <Container component="main" maxWidth="sm">
@@ -82,18 +90,23 @@ const AddProduct: React.FC = () => {
         onChange={handlePriceChange}
         margin="normal" 
         />
-
-
-
-
-
-        <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>Add Product</Button>
+        <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>Add Product</Button>
+         <Button
+          type="button"
+          variant="outlined"
+          color="secondary"
+          fullWidth
+          sx={{ marginTop: 2 }}
+          onClick={handleCancel}
+         >
+          Cancel
+        </Button>
       </form>
-       {message && (
-                <Typography variant="body1" sx={{ marginTop: 2, color: message.includes('success') ? 'green' : 'red' }}>
-                  {message}
-                </Typography>
-              )}
+      {message && (
+        <Typography variant="body1" sx={{ marginTop: 2, color: message.includes('success') ? 'green' : 'red' }}>
+          {message}
+          </Typography>
+        )}
       </Paper>
     </Container>
   );

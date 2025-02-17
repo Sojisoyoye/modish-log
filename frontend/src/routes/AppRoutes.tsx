@@ -8,6 +8,8 @@ import ProductList from '../pages/ProductList';
 import SalesList from '../pages/SalesList';
 import AddProduct from '../pages/AddProduct';
 import AddSale from '../pages/AddSale';
+import UpdateProduct from '../components/UpdateProduct';
+import UpdateSale from '../components/UpdateSale';
 
 const AppRoutes: React.FC = () => {
   return (
@@ -21,12 +23,14 @@ const AppRoutes: React.FC = () => {
         <Route path="/sales" element={<SalesList />} />
         <Route path="/products" element={<ProductList />} />
         <Route path="/add-sale" element={<AddSale />} />
+        <Route path="/edit-sale/:id" element={<UpdateSale />} />
       </Route>
 
       {/* Admin-Only Routes */}
       <Route element={<ProtectedRoute allowedRoles={['Admin']} />}>
         <Route path="/create-user" element={<CreateUser />} />
         <Route path="/add-product" element={<AddProduct />} />
+        <Route path="/update-product/:id" element={<UpdateProduct />} />
       </Route>
 
       {/* Fallback Route */}

@@ -74,6 +74,23 @@ validate that negative value can not be entered for update product
 - User can reset password
 
 
+**MVP**
+Edit sale - to add/remove product price or color/size
+Update sale status to paid/unpaid
+Add comments to sale
+Delete sale
+Delete product 
+Edit / Update product 
+Enter Counted goods and automatic stock balance - should tell which is short or more.
+Product price update should not affect previous sales value.
+
+**EXTRAS**
+Total value of stock/goods remaining 
+Total sales per day 
+Filter sales by date
+Attach payment receipt to sale
+
+
 **To run Migration**
 
 Run the command 
@@ -82,6 +99,10 @@ Run the command
 
 Example:
 `npm run typeorm:migration:generate -- ./src/migrations/UpdateProductPriceColumn`
+
+Then after the migration file is generated, run
+
+`npm run typeorm:migration:run`
 
 *POST /products*
 ```

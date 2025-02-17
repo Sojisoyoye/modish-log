@@ -4,7 +4,7 @@ import { Sale } from '../sales/sales.entity';
 @Entity()
 export class Product {
   @PrimaryGeneratedColumn('uuid')
-  id!: number;
+  id!: string;
 
   @Column()
   color!: string; // e.g., Akala, Wenge
@@ -12,7 +12,7 @@ export class Product {
   @Column()
   size!: string; // e.g., 0.5mm by 21mm, 1mm by 21mm
 
-  @Column()
+  @Column({ type: "decimal", precision: 4, scale: 1, nullable: false }) // Allows decimal values
   quantity!: number; // Current stock
 
   @Column('decimal', { precision: 10, scale: 2 }) // Price with 10 digits total and 2 decimal places
