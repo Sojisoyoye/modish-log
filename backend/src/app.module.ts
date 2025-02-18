@@ -10,6 +10,9 @@ import { Sale } from './sales/sales.entity';
 import { Product } from './products/products.entity';
 import { ProductsModule } from './products/products.module';
 import { SalesModule } from './sales/sales.module';
+import { StockBalanceReport } from './stock/stock-balance-report.entity';
+import { StockCount } from './stock/stock-count.entity';
+import { StockModule } from './stock/stock.module';
 
 @Module({
   imports: [
@@ -27,7 +30,7 @@ import { SalesModule } from './sales/sales.module';
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_DATABASE'),
-        entities: [User, Product, Sale],
+        entities: [User, Product, Sale, StockCount, StockBalanceReport],
         synchronize: true, // Disable in production
       }),
     }),
@@ -35,6 +38,7 @@ import { SalesModule } from './sales/sales.module';
     UsersModule,
     ProductsModule,
     SalesModule,
+    StockModule
   ],
   controllers: [AppController],
   providers: [AppService],

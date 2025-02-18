@@ -17,7 +17,7 @@ const handleSignOut = () => {
     <AppBar position="static">
       <Toolbar>
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          Inventory Management
+          Modish Inventory Management
         </Typography>
         {user ? (
           <>
@@ -41,6 +41,9 @@ const handleSignOut = () => {
               <Button color="inherit" component={Link} to="/add-product">
                 Add Product
               </Button>
+
+              <Button color="inherit" component={Link} to="/stock">
+                Stock</Button>
               </>
             )}
             <Button color="inherit" onClick={handleSignOut}>

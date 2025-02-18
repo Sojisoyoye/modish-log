@@ -1,9 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Sale } from '../sales/sales.entity';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import { Sale } from "../sales/sales.entity";
+import { StockCount } from "../stock/stock-count.entity";
+import { StockBalanceReport } from "../stock/stock-balance-report.entity";
 
 @Entity()
 export class Product {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id!: string;
 
   @Column()
@@ -15,9 +17,15 @@ export class Product {
   @Column({ type: "decimal", precision: 4, scale: 1, nullable: false }) // Allows decimal values
   quantity!: number; // Current stock
 
-  @Column('decimal', { precision: 10, scale: 2 }) // Price with 10 digits total and 2 decimal places
+  @Column("decimal", { precision: 10, scale: 2 }) // Price with 10 digits total and 2 decimal places
   price!: number; // Optional: Price per unit
 
   @OneToMany(() => Sale, (sale) => sale.product)
   sales!: Sale[];
+
+  @OneToMany(() => StockCount, (stockCount) => stockCount.product)
+  stockCounts!: StockCount[];
+
+  @OneToMany(() => StockBalanceReport, (report) => report.product)
+  stockBalanceReports!: StockBalanceReport[];
 }
