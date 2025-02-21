@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Product, Sale } from '../dto/dto';
+import { Product, ReportHistoryItem, Sale, StockBalanceReport, StockCount } from '../dto/dto';
 
 const API_BASE_URL = 'http://localhost:3001/api';
 
@@ -73,4 +73,21 @@ export const updateProduct = async (id: string | undefined, productData: Partial
 export const deleteProduct = async (id: string) => {
   const response = await api.delete(`/products/${id}`);
   return response.data;
+};
+
+// Stock Count and Stock Balance Report APIs
+
+export const submitStockCount = async (data: StockCount) => {
+  return axios.post(`${API_BASE_URL}/stock/counts`, data);
+};
+
+export const generateStockBalanceReport = async (data: {
+  startDate: string;
+  endDate: string;
+}) => {
+  return axios.post<StockBalanceReport[]>(`${API_BASE_URL}/stock/balance-reports`, data);
+};
+
+export const fetchReportHistory = async () => {
+  return axios.get<ReportHistoryItem[]>(`${API_BASE_URL}/stock/balance-reports`);
 };
