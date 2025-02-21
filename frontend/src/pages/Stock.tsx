@@ -6,9 +6,11 @@ import StockCountForm from "../components/StockCountForm";
 import StockBalanceReportForm from "../components/StockBalanceReportForm";
 import StockBalanceReportTable from "../components/StockBalanceReportTable";
 import ReportHistoryTable from "../components/ReportHistoryTable";
+import { useNavigate } from "react-router-dom";
 
 
 const Stock: React.FC = () => {
+  const navigate = useNavigate();
   const [stockBalanceReport, setStockBalanceReport] = useState<StockBalanceReport[]>([]);
   const [reportHistory, setReportHistory] = useState<ReportHistoryItem[]>([]);
 
@@ -22,12 +24,27 @@ const Stock: React.FC = () => {
     }
   };
 
+  // seperate the stock count and generate stock balance report to two different components
+  // put stock balance report history in a separate component page, make it render on mount
+  // stock count list page
+  // stock balance report page
+  // stock balance report history page
+  // stock count form
+  // stock balance report form
+  // stock balance report history table
+  // stock balance report table
+
+
   return (
     <Container>
       <Typography variant="h5" gutterBottom>
-        Submit Stock Count
+        Go To Stock Count
       </Typography>
-      <StockCountForm />
+      <Button variant="contained" color="secondary" onClick={() => navigate('/stock-count')}>
+        Stock Count
+      </Button>
+
+      
       <Typography variant="h5" gutterBottom style={{ marginTop: "2rem" }}>
         Generate Stock Balance Report
       </Typography>

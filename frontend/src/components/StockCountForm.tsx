@@ -39,7 +39,7 @@ const StockCountForm: React.FC = () => {
   };
 
   return (
-    <Container component="main" maxWidth="sm">
+    // <Container component="main" maxWidth="sm">
       <Paper elevation={3} sx={{ padding: 4, marginTop: 4 }}>
         <Typography variant="h4" gutterBottom>
           Add Stock Count
@@ -93,7 +93,7 @@ const StockCountForm: React.FC = () => {
           </Typography>
         )}
       </Paper>
-    </Container>
+    // </Container>
   );
 };
 
