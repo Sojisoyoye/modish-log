@@ -1,20 +1,35 @@
 {
-    "compilerOptions": {
-      "target": "es5",
-      "lib": ["dom", "dom.iterable", "esnext"],
-      "allowJs": true,
-      "skipLibCheck": true,
-      "esModuleInterop": true,
-      "allowSyntheticDefaultImports": true,
-      "strict": true,
-      "forceConsistentCasingInFileNames": true,
-      "noFallthroughCasesInSwitch": true,
-      "module": "esnext",
-      "moduleResolution": "node",
-      "resolveJsonModule": true,
-      "isolatedModules": true,
-      "noEmit": true,
-      "jsx": "react-jsx"
-    },
-    "include": ["src"]
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2021",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "skipLibCheck": true,
+    "jsx": "react-jsx"
   }
+}
+
+// {
+//     "compilerOptions": {
+//       "target": "es5",
+//       "lib": ["dom", "dom.iterable", "esnext"],
+//       "allowJs": true,
+//       "skipLibCheck": true,
+//       "esModuleInterop": true,
+//       "allowSyntheticDefaultImports": true,
+//       "strict": true,
+//       "forceConsistentCasingInFileNames": true,
+//       "noFallthroughCasesInSwitch": true,
+//       "module": "esnext",
+//       "moduleResolution": "node",
+//       "resolveJsonModule": true,
+//       "isolatedModules": true,
+//       "noEmit": true,
+//       "jsx": "react-jsx"
+//     },
+//     "include": ["src"]
+//   }

@@ -11,7 +11,7 @@ const StockBalanceReportForm: React.FC<StockBalanceReportFormProps> = ({
   onReportGenerated,
 }) => {
   const navigate = useNavigate();
-    const [message, setMessage] = useState<string>('');
+  const [message, setMessage] = useState<string>('');
   const [filters, setFilters] = useState({
     startDate: "",
     endDate: "",
@@ -63,7 +63,12 @@ const StockBalanceReportForm: React.FC<StockBalanceReportFormProps> = ({
         fullWidth
         margin="normal"
       />
-      <Button    type="button" variant="contained" color="primary" fullWidth  sx={{ marginTop: 2 }}>
+      <Button 
+      type="button"
+      variant="contained" 
+      color="primary" 
+      fullWidth  
+      sx={{ marginTop: 2 }}>
         Generate Report
       </Button>
       <Button

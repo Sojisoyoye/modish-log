@@ -11,6 +11,11 @@ export class StockController {
     return await this.stockService.createStockCount(createStockCountDto);
   }
 
+  @Get("counts")
+  async getStockCounts() {
+    return await this.stockService.getStockCounts();
+  }
+
   @Post("balance-reports")
   async generateStockBalanceReport(
     @Body() generateStockBalanceReportDto: GenerateStockBalanceReportDto

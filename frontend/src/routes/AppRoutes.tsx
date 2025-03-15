@@ -10,8 +10,9 @@ import AddProduct from '../pages/AddProduct';
 import AddSale from '../pages/AddSale';
 import UpdateProduct from '../components/UpdateProduct';
 import UpdateSale from '../components/UpdateSale';
-import Stock from '../pages/Stock';
 import StockCount from '../pages/StockCount';
+import GenerateStockBalance from '../pages/Stock';
+import StockBalance from '../pages/StockBalance';
 
 const AppRoutes: React.FC = () => {
   return (
@@ -33,8 +34,9 @@ const AppRoutes: React.FC = () => {
         <Route path="/create-user" element={<CreateUser />} />
         <Route path="/add-product" element={<AddProduct />} />
         <Route path="/update-product/:id" element={<UpdateProduct />} />
-        <Route path="/stock" element={<Stock />} />
+        <Route path="/generate-stock-balance" element={<GenerateStockBalance />} />
         <Route path="/stock-count" element={<StockCount />} />
+        <Route path="/stock-balance" element={<StockBalance />} />
       </Route>
 
       {/* Fallback Route */}

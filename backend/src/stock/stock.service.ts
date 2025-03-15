@@ -37,6 +37,12 @@ export class StockService {
     return await this.stockCountRepository.save(stockCount);
   }
 
+  async getStockCounts() {
+    return await this.stockCountRepository.find({
+      relations: ['product'],
+    });
+  }
+
   async generateStockBalanceReport(
     generateStockBalanceReportDto: GenerateStockBalanceReportDto,
   ): Promise<StockBalanceReportResponseDto[]> {

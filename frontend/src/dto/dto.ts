@@ -38,3 +38,13 @@ export interface ReportHistoryItem {
   difference: number;
   reportDate: string;
 }
+
+export interface StockCountItem {
+  id: string;
+  product: {
+    color: string;
+    size: string;
+  };
+  countedQuantity: number;
+  countDate: string;
+}

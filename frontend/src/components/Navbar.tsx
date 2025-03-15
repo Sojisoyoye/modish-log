@@ -23,28 +23,35 @@ const handleSignOut = () => {
           <>
             <Button color="inherit" component={Link} to="/">
               Home
-            </Button>
+                 </Button>
             <Button color="inherit" component={Link} to="/sales">
-              Sales
+                  Sales
             </Button>
-            <Button color="inherit" component={Link} to="/products">
+                <Button color="inherit" component={Link} to="/products">
               Products
             </Button>
             <Button color="inherit" component={Link} to="/add-sale">
               Add Sale
               </Button>
             {user.role === 'Admin' && (
-                <>
+              <>
               <Button color="inherit" component={Link} to="/create-user">
                 Create User
               </Button>
               <Button color="inherit" component={Link} to="/add-product">
                 Add Product
               </Button>
-
-              <Button color="inherit" component={Link} to="/stock">
-                Stock</Button>
+              <Button color="inherit" component={Link} to="/stock-count">
+              Stock Count
+              </Button>
+              <Button color="inherit" component={Link} to="/generate-stock-balance">
+                Generate Stock Balance
+              </Button>
+              <Button color="inherit" component={Link} to="/stock-balance">
+                Stock Balance
+              </Button>
               </>
+              
             )}
             <Button color="inherit" onClick={handleSignOut}>
               Sign Out
