@@ -8,15 +8,13 @@ import {
   TableRow,
   Paper,
 } from '@mui/material';
-import { StockBalanceReport } from '../dto/dto';
+// import { StockBalanceReport } from '../dto/dto';
 
-interface StockBalanceReportTableProps {
-  report: StockBalanceReport[];
-}
+// class StockBalanceReportTableProps {
+//   report: StockBalanceReport[] = [];
+// }
 
-const StockBalanceReportTable: React.FC<StockBalanceReportTableProps> = ({
-  report,
-}) => {
+const StockBalanceReportTable: React.FC<any> = ({ report }) => {
   return (
     <TableContainer component={Paper}>
       <Table>
@@ -31,7 +29,7 @@ const StockBalanceReportTable: React.FC<StockBalanceReportTableProps> = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {report.map((item: StockBalanceReport) => (
+          {report.map((item: any) => (
             <TableRow key={item.productId}>
               <TableCell>{item.productColor}</TableCell>
               <TableCell>{item.productSize}</TableCell>

@@ -15,7 +15,9 @@ const SignOutButton: React.FC<SignOutButtonProps> = ({
   const navigate = useNavigate();
 
   const handleSignOut = () => {
-    setUser(null); // Clear user data
+    if (setUser) {
+      setUser(null); // Clear user data
+    }
     localStorage.removeItem('access_token');
     setIsAuthenticated(false);
     navigate('/signin');

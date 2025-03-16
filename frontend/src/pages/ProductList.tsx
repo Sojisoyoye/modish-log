@@ -37,14 +37,14 @@ const ProductList: React.FC = () => {
     fetchProducts();
   }, []);
 
-  const handleDelete = async (id: string) => {
-    try {
-      await deleteProduct(id);
-      setProducts(products.filter((product) => product.id !== id)); // Remove the product from the list
-    } catch (err) {
-      setError('Failed to delete product');
-    }
-  };
+  // const handleDelete = async (id: string) => {
+  //   try {
+  //     await deleteProduct(id);
+  //     setProducts(products.filter((product) => product.id !== id)); // Remove the product from the list
+  //   } catch (err) {
+  //     setError('Failed to delete product');
+  //   }
+  // };
 
   const handleDeleteClick = (id: string) => {
     setProductToDelete(id);

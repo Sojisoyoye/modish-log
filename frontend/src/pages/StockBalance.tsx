@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Typography } from '@mui/material';
 import ReportHistoryTable from '../components/ReportHistoryTable';
 import { ReportHistoryItem } from '../dto/dto';

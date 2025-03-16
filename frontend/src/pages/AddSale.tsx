@@ -15,12 +15,12 @@ import {
 } from '@mui/material';
 import { addSale, getProducts } from '../api/api';
 
-interface Product {
-  id: string;
-  color: string;
-  size: string;
-  price: number;
-  quantity: number;
+class Product {
+  id!: string;
+  color!: string;
+  size!: string;
+  price!: number;
+  quantity!: number;
 }
 
 const AddSale: React.FC = () => {

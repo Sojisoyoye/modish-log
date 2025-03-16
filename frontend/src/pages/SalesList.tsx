@@ -17,17 +17,21 @@ import { formatNumber } from '../utils';
 import { useNavigate } from 'react-router-dom';
 import ConfirmationDialog from '../components/ConfirmationDialogue';
 
-interface Sale {
-  id: string;
-  quantitySold: number;
-  saleDate: string;
-  price: number;
-  paid: boolean;
-  comment: string;
+class Sale {
+  id: string = '';
+  quantitySold: number = 0;
+  saleDate: string = '';
+  price: number = 0;
+  paid: boolean = false;
+  comment: string = '';
   product: {
     id: number;
     color: string;
     size: string;
+  } = {
+    id: 0,
+    color: '',
+    size: '',
   };
 }
 

@@ -3,11 +3,11 @@ import { TextField, Button, Container, Typography, Paper } from '@mui/material';
 import { addProduct } from '../api/api';
 import { useNavigate } from 'react-router-dom';
 
-interface Product {
-  color: string;
-  size: string;
-  quantity: number;
-  price?: number;
+class Product {
+  color!: string;
+  size!: string;
+  price!: number;
+  quantity!: number;
 }
 
 const AddProduct: React.FC = () => {
