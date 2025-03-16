@@ -8,10 +8,11 @@ interface SignOutButtonProps {
   setIsAuthenticated: (value: boolean) => void;
 }
 
-const SignOutButton: React.FC<SignOutButtonProps> = ({ setIsAuthenticated }) => {
+const SignOutButton: React.FC<SignOutButtonProps> = ({
+  setIsAuthenticated,
+}) => {
   const { setUser } = useUser();
   const navigate = useNavigate();
-
 
   const handleSignOut = () => {
     setUser(null); // Clear user data
@@ -21,7 +22,12 @@ const SignOutButton: React.FC<SignOutButtonProps> = ({ setIsAuthenticated }) => 
   };
 
   return (
-    <Button variant="contained" color="inherit" startIcon={<ExitToAppIcon />} onClick={handleSignOut}>
+    <Button
+      variant="contained"
+      color="inherit"
+      startIcon={<ExitToAppIcon />}
+      onClick={handleSignOut}
+    >
       Sign Out
     </Button>
   );

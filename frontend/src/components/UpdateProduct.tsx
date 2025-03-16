@@ -1,6 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { TextField, Button, Typography, Paper, Container, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
+import {
+  TextField,
+  Button,
+  Typography,
+  Paper,
+  Container,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+} from '@mui/material';
 import { getProduct, updateProduct } from '../api/api';
 import { formatNumber } from '../utils';
 
@@ -15,13 +25,16 @@ const UpdateProduct: React.FC = () => {
   });
   const [message, setMessage] = useState<string>('');
 
-   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setProduct({ ...product, [e.target.name]: e.target.value });
-    };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setProduct({ ...product, [e.target.name]: e.target.value });
+  };
 
-    const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setProduct({ ...product, price: parseFloat(parseFloat(e.target.value).toFixed(2)) });
-      };
+  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setProduct({
+      ...product,
+      price: parseFloat(parseFloat(e.target.value).toFixed(2)),
+    });
+  };
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -63,7 +76,7 @@ const UpdateProduct: React.FC = () => {
             fullWidth
             margin="normal"
             value={product.color}
-            name="color" 
+            name="color"
             onChange={handleChange}
             required
           />
@@ -73,7 +86,7 @@ const UpdateProduct: React.FC = () => {
             fullWidth
             margin="normal"
             value={product.size}
-            name="size" 
+            name="size"
             onChange={handleChange}
             required
           />
@@ -83,23 +96,29 @@ const UpdateProduct: React.FC = () => {
             type="number"
             fullWidth
             margin="normal"
-            name='quantity'
+            name="quantity"
             value={formatNumber(product.quantity)}
             onChange={handleChange}
             required
           />
 
-       <TextField 
-        fullWidth 
-        type="number" 
-        label="Price"
-        name="price"
-        inputProps={{ step: '0.01' }}
-        value={product.price} 
-        onChange={handlePriceChange}
-        margin="normal" 
-        />
-          <Button type="submit" variant="contained" color="primary" fullWidth sx={{ marginTop: 2 }}>
+          <TextField
+            fullWidth
+            type="number"
+            label="Price"
+            name="price"
+            inputProps={{ step: '0.01' }}
+            value={product.price}
+            onChange={handlePriceChange}
+            margin="normal"
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            fullWidth
+            sx={{ marginTop: 2 }}
+          >
             Update Product
           </Button>
           <Button
@@ -113,11 +132,17 @@ const UpdateProduct: React.FC = () => {
             Cancel
           </Button>
         </form>
-         {message && (
-          <Typography variant="body1" sx={{ marginTop: 2, color: message.includes('success') ? 'green' : 'red' }}>
+        {message && (
+          <Typography
+            variant="body1"
+            sx={{
+              marginTop: 2,
+              color: message.includes('success') ? 'green' : 'red',
+            }}
+          >
             {message}
           </Typography>
-          )}
+        )}
       </Paper>
     </Container>
   );

@@ -4,14 +4,14 @@ import { AppBar, Toolbar, Typography, Button } from '@mui/material';
 import { useUser } from '../context/user.context';
 
 const Navbar: React.FC = () => {
-const navigate = useNavigate();
-const { user, setUser } = useUser();
-  
-const handleSignOut = () => {
+  const navigate = useNavigate();
+  const { user, setUser } = useUser();
+
+  const handleSignOut = () => {
     setUser(null); // Clear user data
     localStorage.removeItem('access_token');
     navigate('/signin');
-};
+  };
 
   return (
     <AppBar position="static">
@@ -23,35 +23,38 @@ const handleSignOut = () => {
           <>
             <Button color="inherit" component={Link} to="/">
               Home
-                 </Button>
-            <Button color="inherit" component={Link} to="/sales">
-                  Sales
             </Button>
-                <Button color="inherit" component={Link} to="/products">
+            <Button color="inherit" component={Link} to="/sales">
+              Sales
+            </Button>
+            <Button color="inherit" component={Link} to="/products">
               Products
             </Button>
             <Button color="inherit" component={Link} to="/add-sale">
               Add Sale
-              </Button>
+            </Button>
             {user.role === 'Admin' && (
               <>
-              <Button color="inherit" component={Link} to="/create-user">
-                Create User
-              </Button>
-              <Button color="inherit" component={Link} to="/add-product">
-                Add Product
-              </Button>
-              <Button color="inherit" component={Link} to="/stock-count">
-              Stock Count
-              </Button>
-              <Button color="inherit" component={Link} to="/generate-stock-balance">
-                Generate Stock Balance
-              </Button>
-              <Button color="inherit" component={Link} to="/stock-balance">
-                Stock Balance
-              </Button>
+                <Button color="inherit" component={Link} to="/create-user">
+                  Create User
+                </Button>
+                <Button color="inherit" component={Link} to="/add-product">
+                  Add Product
+                </Button>
+                <Button color="inherit" component={Link} to="/stock-count">
+                  Stock Count
+                </Button>
+                <Button
+                  color="inherit"
+                  component={Link}
+                  to="/generate-stock-balance"
+                >
+                  Generate Stock Balance
+                </Button>
+                <Button color="inherit" component={Link} to="/stock-balance">
+                  Stock Balance
+                </Button>
               </>
-              
             )}
             <Button color="inherit" onClick={handleSignOut}>
               Sign Out

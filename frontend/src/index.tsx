@@ -24,14 +24,18 @@ const theme = createTheme({
 });
 
 // Render the app
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
 root.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <CssBaseline /> {/* Reset CSS and apply Material-UI baseline styles */}
-      <Router> {/* Enable routing */}
+      <Router>
+        {' '}
+        {/* Enable routing */}
         <App /> {/* Render the main App component */}
       </Router>
     </ThemeProvider>
-  </React.StrictMode>,
+  </React.StrictMode>
 );

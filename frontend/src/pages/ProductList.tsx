@@ -1,6 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { deleteProduct, getProducts } from '../api/api';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Container, Button, Stack } from '@mui/material';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Typography,
+  Container,
+  Button,
+  Stack,
+} from '@mui/material';
 import { formatNumber } from '../utils';
 import { Product } from '../dto/dto';
 import { useNavigate } from 'react-router-dom';
@@ -34,7 +46,6 @@ const ProductList: React.FC = () => {
     }
   };
 
-
   const handleDeleteClick = (id: string) => {
     setProductToDelete(id);
     setDeleteDialogOpen(true);
@@ -44,7 +55,9 @@ const ProductList: React.FC = () => {
     if (productToDelete !== null) {
       try {
         await deleteProduct(productToDelete);
-        setProducts(products.filter((product) => product.id !== productToDelete)); // Remove the product from the list
+        setProducts(
+          products.filter((product) => product.id !== productToDelete)
+        ); // Remove the product from the list
       } catch (err) {
         setError('Failed to delete product');
       } finally {
@@ -83,32 +96,32 @@ const ProductList: React.FC = () => {
                 <TableCell> {formatNumber(product.quantity)}</TableCell>
                 <TableCell>₦{product.price}</TableCell>
                 <TableCell>
-               <Stack spacing={2} direction="row">
-               <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => navigate(`/update-product/${product.id}`)}
-                >
-                  Edit
-                </Button>
-               <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={() => handleDeleteClick(product.id)}
-                >
-                  Delete
-                </Button>
-               </Stack>
-              </TableCell>
+                  <Stack spacing={2} direction="row">
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => navigate(`/update-product/${product.id}`)}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={() => handleDeleteClick(product.id)}
+                    >
+                      Delete
+                    </Button>
+                  </Stack>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
         {error && (
-        <Typography variant="body1" sx={{ marginTop: 2, color: 'red' }}>
-          {error}
-        </Typography>
-      )}
+          <Typography variant="body1" sx={{ marginTop: 2, color: 'red' }}>
+            {error}
+          </Typography>
+        )}
       </TableContainer>
 
       <ConfirmationDialog
@@ -118,7 +131,7 @@ const ProductList: React.FC = () => {
         title="Delete Product"
         message="Are you sure you want to delete this product?"
       />
-      </Container>
+    </Container>
   );
 };
 

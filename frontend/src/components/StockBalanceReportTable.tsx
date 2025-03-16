@@ -1,12 +1,22 @@
-import React from "react";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
-import { StockBalanceReport } from "../dto/dto";
+import React from 'react';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from '@mui/material';
+import { StockBalanceReport } from '../dto/dto';
 
 interface StockBalanceReportTableProps {
   report: StockBalanceReport[];
 }
 
-const StockBalanceReportTable: React.FC<StockBalanceReportTableProps> = ({ report }) => {
+const StockBalanceReportTable: React.FC<StockBalanceReportTableProps> = ({
+  report,
+}) => {
   return (
     <TableContainer component={Paper}>
       <Table>
