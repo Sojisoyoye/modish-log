@@ -1,7 +1,6 @@
 import {
   Container,
   Typography,
-  Alert,
   TableContainer,
   Table,
   Paper,
@@ -15,7 +14,6 @@ import {
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import StockCountForm from '../components/StockCountForm';
-import ConfirmationDialog from '../components/ConfirmationDialogue';
 import { getStockCount } from '../api/api';
 import { StockCountItem } from '../dto/dto';
 import { formatNumber } from '../utils';
@@ -29,6 +27,7 @@ const StockCount: React.FC = () => {
       const response = await getStockCount();
       const data = response.data;
       setStockCounts(data);
+      setMessage('');
     };
     fetchStockCount();
   }, []);

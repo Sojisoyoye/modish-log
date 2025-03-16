@@ -1,14 +1,14 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-interface User {
-  id: number;
-  username: string;
-  role: string;
+class User {
+  id: number = 0;
+  username: string = '';
+  role: string = '';
 }
 
-interface UserContextType {
-  user: User | null;
-  setUser: (user: User | null) => void;
+class UserContextType {
+  user: User | null = null;
+  setUser?: (user: User | null) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);

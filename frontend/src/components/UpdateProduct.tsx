@@ -1,16 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import {
-  TextField,
-  Button,
-  Typography,
-  Paper,
-  Container,
-  MenuItem,
-  Select,
-  InputLabel,
-  FormControl,
-} from '@mui/material';
+import { TextField, Button, Typography, Paper, Container } from '@mui/material';
 import { getProduct, updateProduct } from '../api/api';
 import { formatNumber } from '../utils';
 

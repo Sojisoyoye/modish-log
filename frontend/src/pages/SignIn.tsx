@@ -21,11 +21,13 @@ const SignIn: React.FC = () => {
           password,
         }
       );
-      setUser({
-        id: response.data.id,
-        username: response.data.username,
-        role: response.data.role,
-      }); // Store user data in context
+      if (setUser) {
+        setUser({
+          id: response.data.id,
+          username: response.data.username,
+          role: response.data.role,
+        }); // Store user data in context
+      }
       localStorage.setItem('access_token', response.data.access_token); // Store the token
       navigate('/');
     } catch (err) {

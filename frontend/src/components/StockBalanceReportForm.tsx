@@ -3,13 +3,11 @@ import { TextField, Button, Container, Paper, Typography } from '@mui/material';
 import { generateStockBalanceReport } from '../api/api';
 import { useNavigate } from 'react-router-dom';
 
-interface StockBalanceReportFormProps {
-  onReportGenerated: (report: any) => void;
-}
+// class StockBalanceReportFormProps {
+//   onReportGenerated!: (report: any) => void;
+// }
 
-const StockBalanceReportForm: React.FC<StockBalanceReportFormProps> = ({
-  onReportGenerated,
-}) => {
+const StockBalanceReportForm: React.FC<any> = ({ onReportGenerated }) => {
   const navigate = useNavigate();
   const [message, setMessage] = useState<string>('');
   const [filters, setFilters] = useState({

@@ -1,9 +1,17 @@
-export interface Product {
+export class Product {
   id: string;
   color: string;
   size: string;
   quantity: number;
   price: number;
+
+  constructor(id: string, color: string, size: string, quantity: number, price: number) {
+    this.id = id;
+    this.color = color;
+    this.size = size;
+    this.quantity = quantity;
+    this.price = price;
+  }
 }
 
 export interface Sale {
@@ -11,10 +19,16 @@ export interface Sale {
   price: number;
 }
 
-export interface StockCount {
+export class StockCount {
   productId: string;
   countedQuantity: number;
   countDate: string;
+
+  constructor(productId: string, countedQuantity: number, countDate: string) {
+    this.productId = productId;
+    this.countedQuantity = countedQuantity;
+    this.countDate = countDate;
+  }
 }
 
 export interface StockBalanceReport {

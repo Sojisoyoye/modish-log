@@ -1,10 +1,7 @@
 import axios from 'axios';
 import {
-  Product,
   ReportHistoryItem,
-  Sale,
   StockBalanceReport,
-  StockCount,
   StockCountItem,
 } from '../dto/dto';
 
@@ -35,11 +32,11 @@ export const getProducts = async () => {
   return response.data;
 };
 
-export interface CreateSaleDto {
-  productId: string;
-  quantitySold: number;
-  paid: boolean;
-  comment: string;
+export class CreateSaleDto {
+  productId!: string;
+  quantitySold!: number;
+  paid!: boolean;
+  comment!: string;
 }
 
 export const addSale = async (sale: CreateSaleDto) => {
@@ -59,7 +56,7 @@ export const getSale = async (id?: string) => {
 
 export const updateSale = async (
   id: string | undefined,
-  saleData: Partial<Sale>
+  saleData: Partial<any>
 ) => {
   const response = await api.put(`/sales/${id}`, saleData);
   return response.data;
@@ -77,7 +74,7 @@ export const getProduct = async (id?: string) => {
 
 export const updateProduct = async (
   id: string | undefined,
-  productData: Partial<Product>
+  productData: Partial<any>
 ) => {
   const response = await api.put(`/products/${id}`, productData);
   return response.data;
@@ -90,7 +87,7 @@ export const deleteProduct = async (id: string) => {
 
 // Stock Count and Stock Balance Report APIs
 
-export const submitStockCount = async (data: StockCount) => {
+export const submitStockCount = async (data: any) => {
   return axios.post(`${API_BASE_URL}/stock/counts`, data);
 };
 
