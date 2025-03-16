@@ -1,5 +1,12 @@
 import axios from 'axios';
-import { Product, ReportHistoryItem, Sale, StockBalanceReport, StockCount, StockCountItem } from '../dto/dto';
+import {
+  Product,
+  ReportHistoryItem,
+  Sale,
+  StockBalanceReport,
+  StockCount,
+  StockCountItem,
+} from '../dto/dto';
 
 const API_BASE_URL = 'http://localhost:3001/api';
 
@@ -19,7 +26,7 @@ api.interceptors.request.use((config) => {
 export default api;
 
 export const addProduct = async (product: any) => {
-  const response = await axios.post(`${API_BASE_URL}/products`, {...product});
+  const response = await axios.post(`${API_BASE_URL}/products`, { ...product });
   return response.data;
 };
 
@@ -36,7 +43,7 @@ export interface CreateSaleDto {
 }
 
 export const addSale = async (sale: CreateSaleDto) => {
-  const response = await axios.post(`${API_BASE_URL}/sales`, { ...sale});
+  const response = await axios.post(`${API_BASE_URL}/sales`, { ...sale });
   return response.data;
 };
 
@@ -50,7 +57,10 @@ export const getSale = async (id?: string) => {
   return response.data;
 };
 
-export const updateSale = async (id: string | undefined, saleData: Partial<Sale>) => {
+export const updateSale = async (
+  id: string | undefined,
+  saleData: Partial<Sale>
+) => {
   const response = await api.put(`/sales/${id}`, saleData);
   return response.data;
 };
@@ -65,7 +75,10 @@ export const getProduct = async (id?: string) => {
   return response.data;
 };
 
-export const updateProduct = async (id: string | undefined, productData: Partial<Product>) => {
+export const updateProduct = async (
+  id: string | undefined,
+  productData: Partial<Product>
+) => {
   const response = await api.put(`/products/${id}`, productData);
   return response.data;
 };
@@ -89,9 +102,14 @@ export const generateStockBalanceReport = async (data: {
   startDate: string;
   endDate: string;
 }) => {
-  return axios.post<StockBalanceReport[]>(`${API_BASE_URL}/stock/balance-reports`, data);
+  return axios.post<StockBalanceReport[]>(
+    `${API_BASE_URL}/stock/balance-reports`,
+    data
+  );
 };
 
 export const fetchReportHistory = async () => {
-  return axios.get<ReportHistoryItem[]>(`${API_BASE_URL}/stock/balance-reports`);
+  return axios.get<ReportHistoryItem[]>(
+    `${API_BASE_URL}/stock/balance-reports`
+  );
 };

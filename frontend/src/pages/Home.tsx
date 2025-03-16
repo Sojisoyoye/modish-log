@@ -10,9 +10,11 @@ const Home: React.FC = () => {
       <Typography variant="h4" gutterBottom>
         Welcome to the Inventory Management App
       </Typography>
-      {user && <Typography variant="body1">
+      {user && (
+        <Typography variant="body1">
           Logged in as {user.username} (Role: {user.role})
-        </Typography>}
+        </Typography>
+      )}
     </Container>
   );
 };

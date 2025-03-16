@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { TextField, Button, Typography, Paper, Container, FormControlLabel, Checkbox } from '@mui/material';
+import {
+  TextField,
+  Button,
+  Typography,
+  Paper,
+  Container,
+  FormControlLabel,
+  Checkbox,
+} from '@mui/material';
 import { getSale, updateSale } from '../api/api';
 
 const UpdateSale: React.FC = () => {
@@ -15,7 +23,7 @@ const UpdateSale: React.FC = () => {
       color: '',
       size: '',
       price: 0,
-    }
+    },
   });
   const [message, setMessage] = useState<string>('');
 
@@ -55,18 +63,22 @@ const UpdateSale: React.FC = () => {
           Edit Sale
         </Typography>
         <form onSubmit={handleSubmit}>
-          <Typography variant='button' fontSize={20}>{sale.product.color} - {sale.product.size} </Typography>
+          <Typography variant="button" fontSize={20}>
+            {sale.product.color} - {sale.product.size}{' '}
+          </Typography>
           <TextField
             label="Quantity Sold"
             type="number"
             fullWidth
             margin="normal"
             value={sale.quantitySold}
-            onChange={(e) => setSale({ ...sale, quantitySold: Number(e.target.value) })}
+            onChange={(e) =>
+              setSale({ ...sale, quantitySold: Number(e.target.value) })
+            }
             required
           />
-        
-           <FormControlLabel
+
+          <FormControlLabel
             control={
               <Checkbox
                 checked={sale.paid}
@@ -83,9 +95,17 @@ const UpdateSale: React.FC = () => {
             value={sale.comment}
             onChange={(e) => setSale({ ...sale, comment: e.target.value })}
           />
-          <Typography variant="body1" sx={{ marginTop: 2 }}>Price: ₦{sale.product.price * sale.quantitySold}</Typography>
+          <Typography variant="body1" sx={{ marginTop: 2 }}>
+            Price: ₦{sale.product.price * sale.quantitySold}
+          </Typography>
 
-          <Button type="submit" variant="contained" color="primary" fullWidth sx={{ marginTop: 2 }}>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            fullWidth
+            sx={{ marginTop: 2 }}
+          >
             Update Sale
           </Button>
           <Button
@@ -99,11 +119,17 @@ const UpdateSale: React.FC = () => {
             Cancel
           </Button>
         </form>
-         {message && 
-            <Typography variant="body1" sx={{ marginTop: 2, color: message.includes('success') ? 'green' : 'red' }}>
-              {message}
-            </Typography>
-          }
+        {message && (
+          <Typography
+            variant="body1"
+            sx={{
+              marginTop: 2,
+              color: message.includes('success') ? 'green' : 'red',
+            }}
+          >
+            {message}
+          </Typography>
+        )}
       </Paper>
     </Container>
   );

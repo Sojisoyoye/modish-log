@@ -1,6 +1,14 @@
-import React from "react";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
-import { ReportHistoryItem } from "../dto/dto";
+import React from 'react';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from '@mui/material';
+import { ReportHistoryItem } from '../dto/dto';
 
 interface ReportHistoryTableProps {
   history: ReportHistoryItem[];
@@ -28,7 +36,9 @@ const ReportHistoryTable: React.FC<ReportHistoryTableProps> = ({ history }) => {
               <TableCell>{item.expectedQuantity}</TableCell>
               <TableCell>{item.actualQuantity}</TableCell>
               <TableCell>{item.difference}</TableCell>
-              <TableCell>{new Date(item.reportDate).toLocaleDateString()}</TableCell>
+              <TableCell>
+                {new Date(item.reportDate).toLocaleDateString()}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

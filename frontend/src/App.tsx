@@ -7,9 +7,9 @@ import { UserProvider } from './context/user.context';
 const App: React.FC = () => {
   return (
     <UserProvider>
-        <Navbar />
-        <AppRoutes />
-        <Footer />
+      <Navbar />
+      <AppRoutes />
+      <Footer />
     </UserProvider>
   );
 };

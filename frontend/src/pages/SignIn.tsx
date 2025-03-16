@@ -14,11 +14,18 @@ const SignIn: React.FC = () => {
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3001/api/auth/signin', {
-        username,
-        password,
-      });
-      setUser({ id: response.data.id, username: response.data.username, role: response.data.role }); // Store user data in context
+      const response = await axios.post(
+        'http://localhost:3001/api/auth/signin',
+        {
+          username,
+          password,
+        }
+      );
+      setUser({
+        id: response.data.id,
+        username: response.data.username,
+        role: response.data.role,
+      }); // Store user data in context
       localStorage.setItem('access_token', response.data.access_token); // Store the token
       navigate('/');
     } catch (err) {
@@ -50,7 +57,13 @@ const SignIn: React.FC = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Button type="submit" variant="contained" color="primary" fullWidth sx={{ marginTop: 2 }}>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            fullWidth
+            sx={{ marginTop: 2 }}
+          >
             Sign In
           </Button>
         </form>

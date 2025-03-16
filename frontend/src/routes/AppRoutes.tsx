@@ -21,7 +21,11 @@ const AppRoutes: React.FC = () => {
       <Route path="/signin" element={<SignIn />} />
 
       {/* Protected Routes */}
-      <Route element={<ProtectedRoute allowedRoles={['Admin', 'Manager', 'Salesperson']} />}>
+      <Route
+        element={
+          <ProtectedRoute allowedRoles={['Admin', 'Manager', 'Salesperson']} />
+        }
+      >
         <Route path="/" element={<Home />} />
         <Route path="/sales" element={<SalesList />} />
         <Route path="/products" element={<ProductList />} />
@@ -34,7 +38,10 @@ const AppRoutes: React.FC = () => {
         <Route path="/create-user" element={<CreateUser />} />
         <Route path="/add-product" element={<AddProduct />} />
         <Route path="/update-product/:id" element={<UpdateProduct />} />
-        <Route path="/generate-stock-balance" element={<GenerateStockBalance />} />
+        <Route
+          path="/generate-stock-balance"
+          element={<GenerateStockBalance />}
+        />
         <Route path="/stock-count" element={<StockCount />} />
         <Route path="/stock-balance" element={<StockBalance />} />
       </Route>

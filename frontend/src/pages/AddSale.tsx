@@ -1,6 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TextField, Button, Typography, Paper, Container, MenuItem, Select, InputLabel, FormControl, FormControlLabel, Checkbox } from '@mui/material';
+import {
+  TextField,
+  Button,
+  Typography,
+  Paper,
+  Container,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+  FormControlLabel,
+  Checkbox,
+} from '@mui/material';
 import { addSale, getProducts } from '../api/api';
 
 interface Product {
@@ -43,9 +55,9 @@ const AddSale: React.FC = () => {
   useEffect(() => {
     const selectedProduct = products.find((p) => p.id === sale.productId);
     if (selectedProduct) {
-      setTotalPrice(selectedProduct.price * sale.quantitySold);    }
+      setTotalPrice(selectedProduct.price * sale.quantitySold);
+    }
   }, [sale.productId, sale.quantitySold, products]);
-
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -69,35 +81,34 @@ const AddSale: React.FC = () => {
           Add Sale
         </Typography>
         <form onSubmit={handleSubmit}>
-        <FormControl fullWidth margin="normal">
+          <FormControl fullWidth margin="normal">
             <InputLabel>Product</InputLabel>
             <Select
               value={sale.productId}
               onChange={(e) => setSale({ ...sale, productId: e.target.value })}
               required
             >
-              <MenuItem value={''}>
-                Select a product
-              </MenuItem>
+              <MenuItem value={''}>Select a product</MenuItem>
               {products.map((product) => (
                 <MenuItem key={product.id} value={product.id}>
                   {product.color} {product.size}
                 </MenuItem>
               ))}
             </Select>
-
           </FormControl>
           <TextField
             fullWidth
-            type="number" 
+            type="number"
             label="Quantity Sold"
-            name='quantitySold'
+            name="quantitySold"
             inputProps={{ step: '0.01' }}
             value={sale.quantitySold}
-            onChange={(e) => setSale({ ...sale, quantitySold: Number(e.target.value) })}
+            onChange={(e) =>
+              setSale({ ...sale, quantitySold: Number(e.target.value) })
+            }
             margin="normal"
           />
-           <FormControlLabel
+          <FormControlLabel
             control={
               <Checkbox
                 checked={sale.paid}
@@ -117,10 +128,16 @@ const AddSale: React.FC = () => {
           <Typography variant="body1" sx={{ marginTop: 2 }}>
             Total Price: ₦{totalPrice.toFixed(2)}
           </Typography>
-          <Button type="submit" variant="contained" color="primary" fullWidth sx={{ marginTop: 2 }}>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            fullWidth
+            sx={{ marginTop: 2 }}
+          >
             Record Sale
           </Button>
-           <Button
+          <Button
             type="button"
             variant="outlined"
             color="secondary"
@@ -128,11 +145,17 @@ const AddSale: React.FC = () => {
             sx={{ marginTop: 2 }}
             onClick={handleCancel}
           >
-          Cancel
+            Cancel
           </Button>
         </form>
         {message && (
-          <Typography variant="body1" sx={{ marginTop: 2, color: message.includes('success') ? 'green' : 'red' }}>
+          <Typography
+            variant="body1"
+            sx={{
+              marginTop: 2,
+              color: message.includes('success') ? 'green' : 'red',
+            }}
+          >
             {message}
           </Typography>
         )}

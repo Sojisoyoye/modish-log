@@ -67,15 +67,18 @@ const CreateUserForm: React.FC = () => {
               onChange={(e) => setRole(e.target.value)}
               required
             >
-            
               <MenuItem value="Manager">Manager</MenuItem>
               <MenuItem value="Salesperson">Salesperson</MenuItem>
               <MenuItem value="Admin">Admin</MenuItem>
-        
-
             </Select>
           </FormControl>
-          <Button type="submit" variant="contained" color="primary" fullWidth sx={{ marginTop: 2 }}>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            fullWidth
+            sx={{ marginTop: 2 }}
+          >
             Create User
           </Button>
         </form>

@@ -1,6 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { deleteSale, getSales } from '../api/api';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Container, Button, Stack } from '@mui/material';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Typography,
+  Container,
+  Button,
+  Stack,
+} from '@mui/material';
 import { formatNumber } from '../utils';
 import { useNavigate } from 'react-router-dom';
 import ConfirmationDialog from '../components/ConfirmationDialogue';
@@ -59,7 +71,6 @@ const SalesList: React.FC = () => {
     setSaleToDelete(null);
   };
 
-
   return (
     <Container component="main" maxWidth="md">
       <Typography variant="h4" gutterBottom>
@@ -81,7 +92,9 @@ const SalesList: React.FC = () => {
           <TableBody>
             {sales.map((sale) => (
               <TableRow key={sale.id}>
-                <TableCell>{new Date(sale.saleDate).toLocaleDateString()}</TableCell>
+                <TableCell>
+                  {new Date(sale.saleDate).toLocaleDateString()}
+                </TableCell>
                 <TableCell>
                   {sale.product.color} ({sale.product.size})
                 </TableCell>
@@ -90,33 +103,39 @@ const SalesList: React.FC = () => {
                 <TableCell>{sale.paid ? 'Yes' : 'No'}</TableCell>
                 <TableCell>{sale.comment || '-'}</TableCell>
                 <TableCell>
-                <Stack spacing={2} direction="row">
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => navigate(`/edit-sale/${sale.id}`)}
-                  >
-                    Edit
-                  </Button>
+                  <Stack spacing={2} direction="row">
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => navigate(`/edit-sale/${sale.id}`)}
+                    >
+                      Edit
+                    </Button>
 
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={() => handleDeleteClick(sale.id)}
-                  >
-                    Delete
-                  </Button>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={() => handleDeleteClick(sale.id)}
+                    >
+                      Delete
+                    </Button>
                   </Stack>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
-         {message && (
-           <Typography variant="body1" sx={{ marginTop: 2, color: message.includes('success') ? 'green' : 'red' }}>
-             {message}
-           </Typography>
-          )}
+        {message && (
+          <Typography
+            variant="body1"
+            sx={{
+              marginTop: 2,
+              color: message.includes('success') ? 'green' : 'red',
+            }}
+          >
+            {message}
+          </Typography>
+        )}
       </TableContainer>
 
       <ConfirmationDialog
