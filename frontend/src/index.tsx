@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter as Router } from 'react-router-dom'; // For routing
-import { ThemeProvider, createTheme } from '@mui/material/styles'; // For Material-UI theme
-import CssBaseline from '@mui/material/CssBaseline'; // For resetting CSS
-import App from './App'; // Your main App component
+import { BrowserRouter as Router } from 'react-router-dom';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import App from './App';
 
-// Create a Material-UI theme
 const theme = createTheme({
   palette: {
     primary: {
@@ -30,11 +29,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <CssBaseline /> {/* Reset CSS and apply Material-UI baseline styles */}
+      <CssBaseline />
       <Router>
-        {' '}
-        {/* Enable routing */}
-        <App /> {/* Render the main App component */}
+        <App />
       </Router>
     </ThemeProvider>
   </React.StrictMode>

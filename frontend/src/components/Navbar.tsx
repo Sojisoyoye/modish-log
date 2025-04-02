@@ -11,7 +11,8 @@ import {
   ListItemIcon,
   ListItemText,
   Divider,
-  IconButton,
+  ListItemButton,
+  Box,
 } from '@mui/material';
 import {
   Home as HomeIcon,
@@ -25,17 +26,22 @@ import {
   ExitToApp as SignOutIcon,
   Menu as MenuIcon,
 } from '@mui/icons-material';
-// import { useUser } from './UserContext'; // Adjust the import path as needed
 import { useUser } from '../context/user.context';
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  children?: React.ReactNode;
+}
+
+const drawerWidth = 240;
+
+const Navbar: React.FC<NavbarProps> = ({ children }) => {
   const navigate = useNavigate();
   const { user, setUser } = useUser();
   const [drawerOpen, setDrawerOpen] = React.useState(false);
 
   const handleSignOut = () => {
     if (setUser) {
-      setUser(null); // Clear user data
+      setUser(null);
     }
     localStorage.removeItem('access_token');
     navigate('/signin');
@@ -69,22 +75,14 @@ const Navbar: React.FC = () => {
   ];
 
   return (
-    <>
-      <AppBar position="static">
+    <Box sx={{ display: 'flex' }}>
+      <AppBar
+        position="fixed"
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      >
         <Toolbar>
-          {user && (
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              onClick={toggleDrawer(true)}
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-            </IconButton>
-          )}
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            Modish Inventory Management
+            Modish Log
           </Typography>
           {user ? (
             <Button
@@ -103,41 +101,59 @@ const Navbar: React.FC = () => {
       </AppBar>
 
       {user && (
-        <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
-          <List>
-            {navigationItems.map((item) => (
-              <ListItem
-                button
-                key={item.text}
-                component={Link}
-                to={item.path}
-                onClick={toggleDrawer(false)}
-              >
-                <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.text} />
-              </ListItem>
-            ))}
-            {user.role === 'Admin' && (
-              <>
-                <Divider />
-                {adminNavigationItems.map((item) => (
-                  <ListItem
-                    button
-                    key={item.text}
-                    component={Link}
-                    to={item.path}
-                    onClick={toggleDrawer(false)}
-                  >
+        <Drawer
+          variant="permanent"
+          sx={{
+            width: drawerWidth,
+            flexShrink: 0,
+            [`& .MuiDrawer-paper`]: {
+              width: drawerWidth,
+              boxSizing: 'border-box',
+            },
+          }}
+        >
+          <Toolbar />
+          <Box sx={{ overflow: 'auto' }}>
+            <List>
+              {navigationItems.map((item, index) => (
+                <ListItem
+                  key={index}
+                  component={Link}
+                  to={item.path}
+                  disablePadding
+                >
+                  <ListItemButton>
                     <ListItemIcon>{item.icon}</ListItemIcon>
                     <ListItemText primary={item.text} />
-                  </ListItem>
-                ))}
-              </>
-            )}
-          </List>
+                  </ListItemButton>
+                </ListItem>
+              ))}
+              {user.role === 'Admin' && (
+                <>
+                  <Divider />
+                  {adminNavigationItems.map((item) => (
+                    <ListItem
+                      button
+                      key={item.text}
+                      component={Link}
+                      to={item.path}
+                      onClick={toggleDrawer(false)}
+                    >
+                      <ListItemIcon>{item.icon}</ListItemIcon>
+                      <ListItemText primary={item.text} />
+                    </ListItem>
+                  ))}
+                </>
+              )}
+            </List>
+          </Box>
         </Drawer>
       )}
-    </>
+      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+        <Toolbar />
+        {children}
+      </Box>
+    </Box>
   );
 };
 

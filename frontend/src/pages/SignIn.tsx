@@ -26,9 +26,9 @@ const SignIn: React.FC = () => {
           id: response.data.id,
           username: response.data.username,
           role: response.data.role,
-        }); // Store user data in context
+        });
       }
-      localStorage.setItem('access_token', response.data.access_token); // Store the token
+      localStorage.setItem('access_token', response.data.access_token);
       navigate('/');
     } catch (err) {
       setError('Invalid credentials');
@@ -37,7 +37,6 @@ const SignIn: React.FC = () => {
 
   return (
     <Container component="main" maxWidth="sm">
-      <Typography variant="h4">Welcome to Inventory Management</Typography>
       <Paper elevation={3} sx={{ padding: 4, marginTop: 4 }}>
         <Typography variant="h5" gutterBottom>
           Sign In

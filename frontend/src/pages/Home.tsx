@@ -8,7 +8,7 @@ const Home: React.FC = () => {
   return (
     <Container>
       <Typography variant="h4" gutterBottom>
-        Welcome to the Inventory Management App
+        One solution to manage sales and inventory.
       </Typography>
       {user && (
         <Typography variant="body1">
