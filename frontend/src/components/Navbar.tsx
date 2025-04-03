@@ -24,7 +24,6 @@ import {
   FormatListNumbered as StockCountIcon,
   Balance as StockBalanceIcon,
   ExitToApp as SignOutIcon,
-  Menu as MenuIcon,
 } from '@mui/icons-material';
 import { useUser } from '../context/user.context';
 
@@ -37,7 +36,6 @@ const drawerWidth = 240;
 const Navbar: React.FC<NavbarProps> = ({ children }) => {
   const navigate = useNavigate();
   const { user, setUser } = useUser();
-  const [drawerOpen, setDrawerOpen] = React.useState(false);
 
   const handleSignOut = () => {
     if (setUser) {
@@ -45,10 +43,6 @@ const Navbar: React.FC<NavbarProps> = ({ children }) => {
     }
     localStorage.removeItem('access_token');
     navigate('/signin');
-  };
-
-  const toggleDrawer = (open: boolean) => () => {
-    setDrawerOpen(open);
   };
 
   const navigationItems = [
@@ -131,16 +125,17 @@ const Navbar: React.FC<NavbarProps> = ({ children }) => {
               {user.role === 'Admin' && (
                 <>
                   <Divider />
-                  {adminNavigationItems.map((item) => (
+                  {adminNavigationItems.map((item, index) => (
                     <ListItem
-                      button
-                      key={item.text}
+                      key={index}
                       component={Link}
                       to={item.path}
-                      onClick={toggleDrawer(false)}
+                      disablePadding
                     >
-                      <ListItemIcon>{item.icon}</ListItemIcon>
-                      <ListItemText primary={item.text} />
+                      <ListItemButton>
+                        <ListItemIcon>{item.icon}</ListItemIcon>
+                        <ListItemText primary={item.text} />
+                      </ListItemButton>
                     </ListItem>
                   ))}
                 </>

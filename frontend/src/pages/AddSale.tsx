@@ -24,8 +24,6 @@ class Product {
 }
 
 const AddSale: React.FC = () => {
-  // const [productId, setProductId] = useState<string>('');
-  // const [quantitySold, setQuantitySold] = useState<number>(0);
   const navigate = useNavigate();
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [products, setProducts] = useState<Product[]>([]);
@@ -38,7 +36,6 @@ const AddSale: React.FC = () => {
     comment: '',
   });
 
-  // Fetch products on component mount
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -71,7 +68,7 @@ const AddSale: React.FC = () => {
   };
 
   const handleCancel = () => {
-    navigate('/sales'); // Redirect to sales list on cancel
+    navigate('/sales');
   };
 
   return (
