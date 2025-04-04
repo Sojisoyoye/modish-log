@@ -7,7 +7,7 @@ const CreateUser: React.FC = () => {
   const { user } = useUser();
 
   if (user?.role !== 'Admin') {
-    return <Navigate to="/" />; // Redirect to home if not an admin
+    return <Navigate to="/" />;
   }
 
   return <CreateUserForm />;

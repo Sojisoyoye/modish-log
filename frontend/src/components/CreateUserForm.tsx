@@ -28,7 +28,7 @@ const CreateUserForm: React.FC = () => {
         password,
         role,
       });
-      navigate('/'); // Redirect to home page
+      navigate('/');
     } catch (err) {
       console.log(err);
       setError('Failed to create user');
