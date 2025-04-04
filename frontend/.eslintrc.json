@@ -13,5 +13,10 @@
     "browser": true,
     "es2021": true,
     "node": true
+  },
+  "rules": {
+    "prettier/prettier": "off",
+    "react/prop-types": "off",
+    "react/react-in-jsx-scope": "off"
   }
 }

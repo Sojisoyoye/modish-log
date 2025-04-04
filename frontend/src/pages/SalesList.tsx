@@ -1,4 +1,6 @@
+/* eslint-disable */
 import React, { useEffect, useState } from 'react';
+import { SxProps, Theme } from '@mui/material/styles';
 import { deleteSale, getSales } from '../api/api';
 import {
   Table,
@@ -12,6 +14,7 @@ import {
   Container,
   Button,
   Stack,
+  Box,
 } from '@mui/material';
 import { formatNumber } from '../utils';
 import { useNavigate } from 'react-router-dom';
@@ -33,6 +36,17 @@ class Sale {
     color: '',
     size: '',
   };
+}
+
+interface SalesProps {
+  sales: Sale[];
+  message: string | null;
+  deleteDialogOpen: boolean;
+  handleDeleteClick: (id: string) => void;
+  handleDeleteCancel: () => void;
+  handleDeleteConfirm: () => void;
+  navigate: (path: string) => void;
+  formatNumber: (num: number) => string;
 }
 
 const SalesList: React.FC = () => {
@@ -60,7 +74,7 @@ const SalesList: React.FC = () => {
       try {
         await deleteSale(saleToDelete);
         setMessage('Sale deleted successfully');
-        setSales(sales.filter((sale) => sale.id !== saleToDelete)); // Remove the sale from the list
+        setSales(sales.filter((sale) => sale.id !== saleToDelete));
       } catch (err) {
         setMessage('Failed to delete sale - ' + err);
       } finally {
@@ -76,71 +90,75 @@ const SalesList: React.FC = () => {
   };
 
   return (
-    <Container component="main" maxWidth="md">
-      <Typography variant="h4" gutterBottom>
-        Sales
-      </Typography>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Sale Date</TableCell>
-              <TableCell>Product</TableCell>
-              <TableCell>Quantity Sold</TableCell>
-              <TableCell>Price</TableCell>
-              <TableCell>Paid</TableCell>
-              <TableCell>Comment</TableCell>
-              <TableCell>Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {sales.map((sale) => (
-              <TableRow key={sale.id}>
-                <TableCell>
-                  {new Date(sale.saleDate).toLocaleDateString()}
-                </TableCell>
-                <TableCell>
-                  {sale.product.color} ({sale.product.size})
-                </TableCell>
-                <TableCell>{formatNumber(sale.quantitySold)}</TableCell>
-                <TableCell>₦{sale.price}</TableCell>
-                <TableCell>{sale.paid ? 'Yes' : 'No'}</TableCell>
-                <TableCell>{sale.comment || '-'}</TableCell>
-                <TableCell>
-                  <Stack spacing={2} direction="row">
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => navigate(`/edit-sale/${sale.id}`)}
-                    >
-                      Edit
-                    </Button>
+    <Container component="main" maxWidth="md" sx={containerStyles}>
+      <Box sx={headerStyles}>
+        <Typography variant="h4" gutterBottom>
+          Sales
+        </Typography>
+      </Box>
 
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      onClick={() => handleDeleteClick(sale.id)}
-                    >
-                      Delete
-                    </Button>
-                  </Stack>
-                </TableCell>
+      <Box sx={scrollableContentStyles}>
+        <TableContainer component={Paper}>
+          <Table stickyHeader>
+            <TableHead>
+              <TableRow>
+                <TableCell sx={tableHeaderStyles}>Date</TableCell>
+                <TableCell sx={tableHeaderStyles}>Product</TableCell>
+                <TableCell sx={tableHeaderStyles}>Quantity</TableCell>
+                <TableCell sx={tableHeaderStyles}>Price</TableCell>
+                <TableCell sx={tableHeaderStyles}>Paid</TableCell>
+                <TableCell sx={tableHeaderStyles}>Comment</TableCell>
+                <TableCell sx={tableHeaderStyles}>Actions</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHead>
+            <TableBody>
+              {sales.map((sale) => (
+                <TableRow key={sale.id} hover>
+                  <TableCell>
+                    {new Date(sale.saleDate).toLocaleDateString()}
+                  </TableCell>
+                  <TableCell>
+                    {sale.product.color} ({sale.product.size})
+                  </TableCell>
+                  <TableCell>{formatNumber(sale.quantitySold)}</TableCell>
+                  <TableCell>₦{sale.price}</TableCell>
+                  <TableCell>{sale.paid ? 'Yes' : 'No'}</TableCell>
+                  <TableCell>{sale.comment || '-'}</TableCell>
+                  <TableCell>
+                    <Stack direction="row" spacing={1}>
+                      <Button
+                        variant="contained"
+                        size="small"
+                        color="primary"
+                        onClick={() => navigate(`/edit-sale/${sale.id}`)}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        variant="contained"
+                        size="small"
+                        color="error"
+                        onClick={() => handleDeleteClick(sale.id)}
+                      >
+                        Delete
+                      </Button>
+                    </Stack>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+
         {message && (
           <Typography
             variant="body1"
-            sx={{
-              marginTop: 2,
-              color: message.includes('success') ? 'green' : 'red',
-            }}
+            sx={messageStyles(message.includes('success'))}
           >
             {message}
           </Typography>
         )}
-      </TableContainer>
+      </Box>
 
       <ConfirmationDialog
         open={deleteDialogOpen}
@@ -154,3 +172,42 @@ const SalesList: React.FC = () => {
 };
 
 export default SalesList;
+
+const tableHeaderStyles: SxProps<Theme> = {
+  fontWeight: 'bold',
+  fontSize: '1rem',
+};
+
+const containerStyles: SxProps<Theme> = {
+  display: 'flex',
+  flexDirection: 'column',
+  height: '100vh',
+  p: 2,
+  overflow: 'hidden',
+  // marginBottom: '4rem'
+};
+
+const headerStyles: SxProps<Theme> = {
+  mb: 2,
+};
+
+const scrollableContentStyles: SxProps<Theme> = {
+  flex: 1,
+  overflow: 'auto',
+  '&::-webkit-scrollbar': {
+    width: '0.4em',
+  },
+  '&::-webkit-scrollbar-track': {
+    boxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)',
+    webkitBoxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)',
+  },
+  '&::-webkit-scrollbar-thumb': {
+    backgroundColor: 'rgba(0,0,0,.1)',
+    borderRadius: '4px',
+  },
+};
+
+const messageStyles = (isSuccess: boolean): SxProps<Theme> => ({
+  mt: 2,
+  color: isSuccess ? 'success.main' : 'error.main',
+});

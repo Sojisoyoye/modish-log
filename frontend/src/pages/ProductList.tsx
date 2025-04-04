@@ -37,15 +37,6 @@ const ProductList: React.FC = () => {
     fetchProducts();
   }, []);
 
-  // const handleDelete = async (id: string) => {
-  //   try {
-  //     await deleteProduct(id);
-  //     setProducts(products.filter((product) => product.id !== id)); // Remove the product from the list
-  //   } catch (err) {
-  //     setError('Failed to delete product');
-  //   }
-  // };
-
   const handleDeleteClick = (id: string) => {
     setProductToDelete(id);
     setDeleteDialogOpen(true);
@@ -57,7 +48,7 @@ const ProductList: React.FC = () => {
         await deleteProduct(productToDelete);
         setProducts(
           products.filter((product) => product.id !== productToDelete)
-        ); // Remove the product from the list
+        );
       } catch (err) {
         setError('Failed to delete product');
       } finally {
@@ -73,7 +64,7 @@ const ProductList: React.FC = () => {
   };
 
   return (
-    <Container component="main" maxWidth="md">
+    <Container component="main" maxWidth="md" sx={{ marginBottom: 10 }}>
       <Typography variant="h4" gutterBottom>
         Products
       </Typography>
