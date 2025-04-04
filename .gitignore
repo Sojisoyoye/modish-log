@@ -27,6 +27,13 @@ build/Release
 # Dependency directories
 node_modules/
 
+# Build
+dist/
+build/
+*.js
+*.js.map
+*.d.ts
+
 # TypeScript v1 declaration files
 typings/
 
@@ -51,6 +58,7 @@ typings/
 # dotenv environment variables file
 .env
 .env.test
+.env.local
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -61,4 +69,5 @@ typings/
 .DS_Store
 
 .idea
-
+.bfg-report/
+..bfg-report/
