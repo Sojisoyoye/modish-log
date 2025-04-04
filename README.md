@@ -19,7 +19,7 @@ Frontend: http://localhost:3000
 
 **To run the app seperately**
 
-- To run the database, comment out the backend and frontend docker setups, then from the root folder, run:
+- To run the database, comment out the backend and frontend docker setups, then from the root folder, run for database:
 
 `docker-compose up`
 
@@ -31,17 +31,7 @@ Frontend: http://localhost:3000
 
 `nmp start`
 
-
-
-docker-compose up
-
-
 # modish-inventory
-
-Create history to show sales date change in stock and all
-validate that sale quantity can not be zero
-validate that negative value can not be entered for create sale and product
-validate that negative value can not be entered for update product
 
 ## User
 
@@ -51,44 +41,56 @@ validate that negative value can not be entered for update product
 - User can edit sale ✅
 - User can delete sale ✅
 - User can see sale history of a product
-- User can see all products with just quantity left column alone
-- User can see a product with just quantity left column alone
+- User can see all products with just only quantity left column
+- User can see a product with just only quantity left column alone
 
 ## Admin
 
 - Admin can create/add product ✅
 - Admin can get a product ✅
 - Admin can get all products ✅
-- Admin can edit product ✅
-  - can add quantities to existing product 
+- Admin can edit a product ✅
 - Admin can delete product ✅
+- can add quantities to existing product 
 
 ## User Auth
 
 - Admin can create a user  ✅
 - Admin can get users  ✅
 - Admin can get a user  ✅
-- Admin can delete/deactivate user 
 - User can login  ✅
 - User can log out  ✅
+- Admin can delete/deactivate user 
 - User can reset password
 
 
+:TODO
+
+- Get users list ui
+- Admin edit user (role, reset password) action on user list
+
+
 **MVP**
-Edit sale - to add/remove product price or color/size ✅
-Update sale status to paid/unpaid ✅
-Add comments to sale ✅
-Delete sale ✅
-Delete product ✅
-Edit / Update product ✅
-Enter Counted goods and automatic stock balance - should tell which is short or more.
-Product price update should not affect previous sales value.
+- Edit sale - to add/remove product price or color/size ✅
+- Update sale status to paid/unpaid ✅
+- Add comments to sale ✅
+- Delete sale ✅
+- Delete product ✅
+- Edit / Update product ✅
+- Enter Counted goods and automatic stock balance - should tell which is short or more. ✅
+- Product price update should not affect previous sales value. 
 
 **EXTRAS**
-Total value of stock/goods remaining 
-Total sales per day 
-Filter sales by date
-Attach payment receipt to sale
+- Total value of stock/goods remaining 
+- Total sales per day 
+- Filter sales by date
+- Attach payment receipt to sale
+
+**TO CHECK IF IMPLEMENTED**
+- Create history to show sales date change in stock and all
+- validate that sale quantity can not be zero
+- validate that negative value can not be entered for create sale and product
+- validate that negative value can not be entered for update product
 
 
 **To run Migration**
