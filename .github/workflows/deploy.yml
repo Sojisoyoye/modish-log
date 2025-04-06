@@ -6,17 +6,15 @@ on:
 jobs:
   deploy-backend:
     runs-on: ubuntu-latest
-    
+    container: ghcr.io/railwayapp/cli:latest
+    env:
+      SVC_ID: ${{ secrets.RAILWAY_SERVICE_ID }} 
+      RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+
     steps:
       - uses: actions/checkout@v4
-
       - name: Deploy to Railway
-        uses: railway/action@v2
-        with:
-          project: ${{ secrets.RAILWAY_PROJECT_ID }}
-          service: ${{ secrets.RAILWAY_SERVICE_NAME }}
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: railway up --service=${{ env.SVC_ID }} --detach
 
   deploy-frontend:
     runs-on: ubuntu-latest
