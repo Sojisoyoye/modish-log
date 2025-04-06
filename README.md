@@ -31,6 +31,10 @@ Frontend: http://localhost:3000
 
 `nmp start`
 
+**Swagger Documentation**
+
+Visit http://localhost:3001/api to view the Swagger UI.
+
 # modish-inventory
 
 ## User
