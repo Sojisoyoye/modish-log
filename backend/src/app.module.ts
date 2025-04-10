@@ -19,15 +19,13 @@ import { StockModule } from "./stock/stock.module";
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService): TypeOrmModuleOptions => {
-        const databaseUrl = configService.get<string>("DATABASE_URL");
-        let config: TypeOrmModuleOptions;
 
-        if (databaseUrl) {
-          const parsed = new URL(databaseUrl);
-          config = {
+        if (process.env.DATABASE_URL) {
+          const parsed = new URL(process.env.DATABASE_URL);
+          return {
             type: "postgres",
             host: parsed.hostname,
-            port: Number(parsed.port),
+            port: parseInt(parsed.port),
             username: parsed.username,
             password: parsed.password,
             database: parsed.pathname.slice(1),
@@ -42,20 +40,18 @@ import { StockModule } from "./stock/stock.module";
               },
             },
           };
-        } else {
-          config = {
-            type: "postgres",
-            host: configService.getOrThrow<string>("DB_HOST"),
-            port: configService.getOrThrow<number>("DB_PORT"),
-            username: configService.getOrThrow<string>("DB_USERNAME"),
-            password: configService.getOrThrow<string>("DB_PASSWORD"),
-            database: configService.getOrThrow<string>("DB_DATABASE"),
-            entities: [__dirname + "/**/*.entity{.ts,.js}"],
-            synchronize: configService.get("NODE_ENV") !== "production",
-          };
         }
 
-        return config;
+        return {
+          type: "postgres",
+          host: configService.getOrThrow<string>("DB_HOST"),
+          port: configService.getOrThrow<number>("DB_PORT"),
+          username: configService.getOrThrow<string>("DB_USERNAME"),
+          password: configService.getOrThrow<string>("DB_PASSWORD"),
+          database: configService.getOrThrow<string>("DB_DATABASE"),
+          entities: [__dirname + "/**/*.entity{.ts,.js}"],
+          synchronize: configService.get("NODE_ENV") !== "production",
+        };
       },
     }),
     AuthModule,
@@ -68,17 +64,3 @@ import { StockModule } from "./stock/stock.module";
   providers: [AppService],
 })
 export class AppModule {}
-
-// const parseDbUrl = (url: string) => {
-//   const pattern = /postgresql:\/\/([^:]+):([^@]+)@([^:]+):(\d+)\/(.+)/;
-//   const match = url.match(pattern);
-//   if (!match) throw new Error("Invalid DATABASE_URL");
-
-//   return {
-//     host: match[3],
-//     port: parseInt(match[4]),
-//     username: match[1],
-//     password: match[2],
-//     database: match[5],
-//   };
-// };
