@@ -23,18 +23,24 @@ import { StockModule } from "./stock/stock.module";
         let config: TypeOrmModuleOptions;
 
         if (databaseUrl) {
-          const parsed = parseDbUrl(databaseUrl);
+          const parsed = new URL(databaseUrl);
           config = {
             type: "postgres",
-            host: parsed.host,
-            port: parsed.port,
+            host: parsed.hostname,
+            port: Number(parsed.port),
             username: parsed.username,
             password: parsed.password,
-            database: parsed.database,
+            database: parsed.pathname.slice(1),
             entities: [__dirname + "/**/*.entity{.ts,.js}"],
             synchronize: configService.get("NODE_ENV") !== "production",
             retryAttempts: 3,
             retryDelay: 3000,
+            ssl: true,
+            extra: {
+              ssl: {
+                rejectUnauthorized: false,
+              },
+            },
           };
         } else {
           config = {
@@ -63,16 +69,16 @@ import { StockModule } from "./stock/stock.module";
 })
 export class AppModule {}
 
-const parseDbUrl = (url: string) => {
-  const pattern = /postgresql:\/\/([^:]+):([^@]+)@([^:]+):(\d+)\/(.+)/;
-  const match = url.match(pattern);
-  if (!match) throw new Error("Invalid DATABASE_URL");
+// const parseDbUrl = (url: string) => {
+//   const pattern = /postgresql:\/\/([^:]+):([^@]+)@([^:]+):(\d+)\/(.+)/;
+//   const match = url.match(pattern);
+//   if (!match) throw new Error("Invalid DATABASE_URL");
 
-  return {
-    host: match[3],
-    port: parseInt(match[4]),
-    username: match[1],
-    password: match[2],
-    database: match[5],
-  };
-};
+//   return {
+//     host: match[3],
+//     port: parseInt(match[4]),
+//     username: match[1],
+//     password: match[2],
+//     database: match[5],
+//   };
+// };
