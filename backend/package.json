@@ -5,6 +5,7 @@
     "start": "ts-node src/main.ts",
     "start:dev": "nest start --watch",
     "build": "nest build",
+    "start:prod": "node dist/main.js",
     "test": "jest",
     "typeorm": "typeorm-ts-node-commonjs",
     "typeorm:migration:generate": "npm run typeorm migration:generate -- -d ./src/data-source.ts",
