@@ -6,10 +6,10 @@ COPY . .
 CMD ["npm", "run", "start:dev"]
 
 
-FROM node:20-alpine AS production
+FROM node:23-alpine AS production
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci --omit=dev 
+RUN npm install --omit=dev
 COPY . .
 RUN npm run build
 EXPOSE 3000
