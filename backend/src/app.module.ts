@@ -2,16 +2,11 @@ import { Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { TypeOrmModule, TypeOrmModuleOptions } from "@nestjs/typeorm";
 import { AuthModule } from "./auth/auth.module";
-import { User } from "./users/users.entity";
 import { UsersModule } from "./users/users.module";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
-import { Sale } from "./sales/sales.entity";
-import { Product } from "./products/products.entity";
 import { ProductsModule } from "./products/products.module";
 import { SalesModule } from "./sales/sales.module";
-import { StockBalanceReport } from "./stock/stock-balance-report.entity";
-import { StockCount } from "./stock/stock-count.entity";
 import { StockModule } from "./stock/stock.module";
 
 @Module({
