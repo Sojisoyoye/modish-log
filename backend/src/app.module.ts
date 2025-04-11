@@ -19,9 +19,21 @@ import { StockModule } from "./stock/stock.module";
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService): TypeOrmModuleOptions => {
+        const databaseUrl = process.env.DATABASE_URL;
 
-        if (process.env.DATABASE_URL) {
-          const parsed = new URL(process.env.DATABASE_URL);
+        // if (databaseUrl) {
+        //   return {
+        //     type: "postgres",
+        //     url: databaseUrl,
+        //     entities: [__dirname + "/**/*.entity{.ts,.js}"],
+        //     synchronize: configService.get("NODE_ENV") !== "production",
+        //     retryAttempts: 3,
+        //     retryDelay: 3000,
+        //   };
+        // }
+
+        if (databaseUrl) {
+          const parsed = new URL(databaseUrl);
           return {
             type: "postgres",
             host: parsed.hostname,
