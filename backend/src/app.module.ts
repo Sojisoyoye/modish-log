@@ -21,17 +21,6 @@ import { StockModule } from "./stock/stock.module";
       useFactory: (configService: ConfigService): TypeOrmModuleOptions => {
         const databaseUrl = process.env.DATABASE_URL;
 
-        // if (databaseUrl) {
-        //   return {
-        //     type: "postgres",
-        //     url: databaseUrl,
-        //     entities: [__dirname + "/**/*.entity{.ts,.js}"],
-        //     synchronize: configService.get("NODE_ENV") !== "production",
-        //     retryAttempts: 3,
-        //     retryDelay: 3000,
-        //   };
-        // }
-
         if (databaseUrl) {
           const parsed = new URL(databaseUrl);
           return {
