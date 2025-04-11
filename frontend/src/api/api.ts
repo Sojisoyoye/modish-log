@@ -5,10 +5,10 @@ import {
   StockCountItem,
 } from '../dto/dto';
 
-const API_BASE_URL = 'http://localhost:3001/api';
-
+// const API_BASE_URL = 'http://localhost:3001/api';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const api = axios.create({
-  baseURL: 'http://localhost:3001/api', // Your backend base URL
+  baseURL: process.env.REACT_APP_API_BASE_URL,
 });
 
 // Add a request interceptor to include the Bearer Token
