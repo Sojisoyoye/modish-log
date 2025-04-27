@@ -74,7 +74,9 @@ const StockCount: React.FC = () => {
                     <Button
                       variant="contained"
                       color="secondary"
-                      onClick={() => {}}
+                      onClick={() =>
+                        navigate(`/delete-stock-count/${stockCount.id}`)
+                      }
                     >
                       Delete
                     </Button>

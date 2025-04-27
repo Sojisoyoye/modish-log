@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
 class User {
-  id: number = 0;
-  username: string = '';
-  role: string = '';
+  id = 0;
+  username = '';
+  role = '';
 }
 
 class UserContextType {
