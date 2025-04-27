@@ -20,7 +20,7 @@ async function bootstrap() {
 
   // CORS configuration
   app.enableCors({
-    origin: true,
+    origin: "https://modish-log.vercel.app",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
     credentials: true,
     allowedHeaders: [
