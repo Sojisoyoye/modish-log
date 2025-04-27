@@ -13,6 +13,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run Database Migrations
+        run: railway run npm run typeorm:migration:run
+
       - name: Deploy to Railway
         run: railway up --service=${{ env.SVC_ID }} --detach
 
