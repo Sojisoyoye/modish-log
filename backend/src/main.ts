@@ -23,6 +23,7 @@ async function bootstrap() {
     "http://localhost:3000",
     "https://modish-log.vercel.app",
     "https://modish-igkqz8ugk-soji-soyoyes-projects.vercel.app",
+    /^https:\/\/modish-log.*\.vercel\.app$/, // Allow all Vercel preview deployments
   ];
 
   app.enableCors({
@@ -30,15 +31,38 @@ async function bootstrap() {
       origin: string | undefined,
       callback: (err: Error | null, allow?: boolean) => void
     ) => {
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (!origin) {
+        callback(null, true);
+        return;
+      }
+
+      const isAllowed = allowedOrigins.some((allowedOrigin) => {
+        if (allowedOrigin instanceof RegExp) {
+          return allowedOrigin.test(origin);
+        }
+        return allowedOrigin === origin;
+      });
+
+      if (isAllowed) {
         callback(null, true);
       } else {
+        console.log("CORS blocked request from origin:", origin);
         callback(new Error("Not allowed by CORS"));
       }
     },
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
     credentials: true,
-    allowedHeaders: "Content-Type, Accept, Authorization",
+    allowedHeaders: [
+      "Content-Type",
+      "Accept",
+      "Authorization",
+      "X-Requested-With",
+      "Origin",
+      "Access-Control-Request-Method",
+      "Access-Control-Request-Headers",
+    ],
+    exposedHeaders: ["Content-Range", "X-Content-Range"],
+    maxAge: 3600,
   });
 
   await app.listen(process.env.APP_PORT || APP_PORT);
