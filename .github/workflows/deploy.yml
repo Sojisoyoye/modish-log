@@ -14,15 +14,27 @@ jobs:
         with:
           node-version: "20"
           cache: "npm"
-          cache-dependency-path: package-lock.json
+          cache-dependency-path: backend/package-lock.json
 
       - name: Install Dependencies
+        working-directory: backend
         run: npm ci
 
       - name: Install Railway CLI
         run: npm install -g @railway/cli
 
+      - name: Login to Railway
+        run: railway login
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+
+      - name: Link to Railway Project
+        run: railway link
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+
       - name: Run Database Migrations
+        working-directory: backend
         run: railway run npm run typeorm:migration:run
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
