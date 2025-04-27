@@ -7,13 +7,11 @@ import {
   Sale,
 } from '../dto/dto';
 
-// const API_BASE_URL = 'http://localhost:3001/api';
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_BASE_URL,
+  baseURL: API_BASE_URL,
 });
 
-// Add a request interceptor to include the Bearer Token
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('access_token');
   if (token) {

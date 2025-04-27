@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Typography, Paper, Container } from '@mui/material';
-import axios from 'axios';
+import api from '../api/api';
 import { useUser } from '../context/user.context';
 
 const SignIn: React.FC = () => {
@@ -14,13 +14,10 @@ const SignIn: React.FC = () => {
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        'http://localhost:3001/api/auth/signin',
-        {
-          username,
-          password,
-        }
-      );
+      const response = await api.post('/auth/signin', {
+        username,
+        password,
+      });
       if (setUser) {
         setUser({
           id: response.data.id,
