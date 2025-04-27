@@ -19,37 +19,8 @@ async function bootstrap() {
   SwaggerModule.setup("api", app, document);
 
   // CORS configuration
-  const allowedOrigins = [
-    "http://localhost:3000",
-    "https://modish-log.vercel.app",
-    "https://modish-igkqz8ugk-soji-soyoyes-projects.vercel.app",
-    /^https:\/\/modish-log.*\.vercel\.app$/, // Allow all Vercel preview deployments
-  ];
-
   app.enableCors({
-    origin: (
-      origin: string | undefined,
-      callback: (err: Error | null, allow?: boolean) => void
-    ) => {
-      if (!origin) {
-        callback(null, true);
-        return;
-      }
-
-      const isAllowed = allowedOrigins.some((allowedOrigin) => {
-        if (allowedOrigin instanceof RegExp) {
-          return allowedOrigin.test(origin);
-        }
-        return allowedOrigin === origin;
-      });
-
-      if (isAllowed) {
-        callback(null, true);
-      } else {
-        console.log("CORS blocked request from origin:", origin);
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    origin: true,
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
     credentials: true,
     allowedHeaders: [
