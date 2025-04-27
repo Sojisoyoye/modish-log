@@ -89,7 +89,11 @@ export const deleteProduct = async (id: string) => {
 
 // Stock Count and Stock Balance Report APIs
 
-export const submitStockCount = async (data: Omit<StockCountItem, 'id'>) => {
+export const submitStockCount = async (data: {
+  productId: string;
+  countedQuantity: number;
+  countDate: string;
+}) => {
   return axios.post(`${API_BASE_URL}/stock/counts`, data);
 };
 
@@ -111,4 +115,8 @@ export const fetchReportHistory = async () => {
   return axios.get<ReportHistoryItem[]>(
     `${API_BASE_URL}/stock/balance-reports`
   );
+};
+
+export const deleteStockCount = async (id: string) => {
+  return axios.delete(`${API_BASE_URL}/stock/counts/${id}`);
 };

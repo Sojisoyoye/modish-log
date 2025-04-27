@@ -14,23 +14,53 @@ import {
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import StockCountForm from '../components/StockCountForm';
-import { getStockCount } from '../api/api';
+import { getStockCount, deleteStockCount } from '../api/api';
 import { StockCountItem } from '../dto/dto';
 import { formatNumber } from '../utils';
+import ConfirmationDialog from '../components/ConfirmationDialogue';
 
 const StockCount: React.FC = () => {
   const [stockCounts, setStockCounts] = useState<StockCountItem[]>([]);
   const [message, setMessage] = useState('');
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [selectedStockCountId, setSelectedStockCountId] = useState<string>('');
   const navigate = useNavigate();
-  useEffect(() => {
-    const fetchStockCount = async () => {
+
+  const fetchStockCounts = async () => {
+    try {
       const response = await getStockCount();
-      const data = response.data;
-      setStockCounts(data);
+      setStockCounts(response.data);
       setMessage('');
-    };
-    fetchStockCount();
+    } catch (error) {
+      setMessage('Failed to fetch stock counts');
+    }
+  };
+
+  useEffect(() => {
+    fetchStockCounts();
   }, []);
+
+  const handleDeleteClick = (id: string) => {
+    setSelectedStockCountId(id);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleDeleteCancel = () => {
+    setDeleteDialogOpen(false);
+    setSelectedStockCountId('');
+  };
+
+  const handleDeleteConfirm = async () => {
+    try {
+      await deleteStockCount(selectedStockCountId);
+      await fetchStockCounts();
+      setMessage('Stock count deleted successfully');
+    } catch (error) {
+      setMessage('Failed to delete stock count');
+    }
+    setDeleteDialogOpen(false);
+    setSelectedStockCountId('');
+  };
 
   return (
     <Container component="main" maxWidth="sm">
@@ -66,17 +96,16 @@ const StockCount: React.FC = () => {
                     <Button
                       variant="contained"
                       color="primary"
-                      onClick={() => navigate(`/edit-sale/${stockCount.id}`)}
+                      onClick={() =>
+                        navigate(`/edit-stock-count/${stockCount.id}`)
+                      }
                     >
                       Edit
                     </Button>
-
                     <Button
                       variant="contained"
                       color="secondary"
-                      onClick={() =>
-                        navigate(`/delete-stock-count/${stockCount.id}`)
-                      }
+                      onClick={() => handleDeleteClick(stockCount.id)}
                     >
                       Delete
                     </Button>
@@ -99,13 +128,13 @@ const StockCount: React.FC = () => {
         )}
       </TableContainer>
 
-      {/* <ConfirmationDialog
+      <ConfirmationDialog
         open={deleteDialogOpen}
         onClose={handleDeleteCancel}
         onConfirm={handleDeleteConfirm}
-        title="Delete Sale"
-        message="Are you sure you want to delete this sale?"
-      /> */}
+        title="Delete Stock Count"
+        message="Are you sure you want to delete this stock count?"
+      />
     </Container>
   );
 };

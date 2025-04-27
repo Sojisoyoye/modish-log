@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
 import { TextField, Button, Typography, Paper } from '@mui/material';
-import { StockCount } from '../dto/dto';
 import { submitStockCount } from '../api/api';
 import { useNavigate } from 'react-router-dom';
+
+interface StockCountFormData {
+  productId: string;
+  countedQuantity: number;
+  countDate: string;
+}
 
 const StockCountForm: React.FC = () => {
   const navigate = useNavigate();
   const [message, setMessage] = useState<string>('');
 
-  const [stockCount, setStockCount] = useState<StockCount>({
+  const [stockCount, setStockCount] = useState<StockCountFormData>({
     productId: '',
     countedQuantity: 0,
     countDate: '',
@@ -22,9 +27,9 @@ const StockCountForm: React.FC = () => {
   const handleSubmit = async () => {
     try {
       await submitStockCount({
-        ...stockCount,
         productId: stockCount.productId,
         countedQuantity: parseInt(stockCount.countedQuantity.toString()),
+        countDate: stockCount.countDate,
       });
       setMessage('Stock count submitted successfully!');
       setStockCount({ productId: '', countedQuantity: 0, countDate: '' });
@@ -38,7 +43,6 @@ const StockCountForm: React.FC = () => {
   };
 
   return (
-    // <Container component="main" maxWidth="sm">
     <Paper elevation={3} sx={{ padding: 4, marginTop: 4 }}>
       <Typography variant="h4" gutterBottom>
         Add Stock Count
@@ -46,31 +50,33 @@ const StockCountForm: React.FC = () => {
       <form onSubmit={handleSubmit}>
         <TextField
           label="Product ID"
-          name="product_id"
+          name="productId"
           value={stockCount.productId}
           onChange={handleChange}
           fullWidth
           margin="normal"
-          type="number"
+          required
         />
         <TextField
           label="Counted Quantity"
-          name="counted_quantity"
+          name="countedQuantity"
           value={stockCount.countedQuantity}
           onChange={handleChange}
           fullWidth
           margin="normal"
           type="number"
+          required
         />
         <TextField
           label="Count Date"
-          name="count_date"
+          name="countDate"
           type="date"
           InputLabelProps={{ shrink: true }}
           value={stockCount.countDate}
           onChange={handleChange}
           fullWidth
           margin="normal"
+          required
         />
         <Button
           type="button"
@@ -78,6 +84,7 @@ const StockCountForm: React.FC = () => {
           color="primary"
           fullWidth
           sx={{ marginTop: 2 }}
+          onClick={handleSubmit}
         >
           Submit Stock Count
         </Button>
@@ -104,7 +111,6 @@ const StockCountForm: React.FC = () => {
         </Typography>
       )}
     </Paper>
-    // </Container>
   );
 };
 
