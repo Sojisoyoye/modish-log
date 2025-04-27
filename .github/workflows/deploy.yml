@@ -23,21 +23,20 @@ jobs:
       - name: Install Railway CLI
         run: npm install -g @railway/cli
 
-      - name: Link to Railway Project
-        run: railway link
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-
       - name: Run Database Migrations
         working-directory: backend
-        run: railway run npm run typeorm:migration:run
+        run: |
+          railway connect
+          railway run npm run typeorm:migration:run
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
 
       - name: Deploy to Railway
         run: railway up --service=${{ secrets.RAILWAY_SERVICE_ID }} --detach
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
 
   deploy-frontend:
     runs-on: ubuntu-latest
