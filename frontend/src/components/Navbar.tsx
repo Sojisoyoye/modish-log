@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import {
   AppBar,
@@ -28,7 +28,7 @@ import {
 import { useUser } from '../context/user.context';
 
 interface NavbarProps {
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
 const drawerWidth = 240;
