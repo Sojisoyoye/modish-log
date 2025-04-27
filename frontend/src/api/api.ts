@@ -3,6 +3,8 @@ import {
   ReportHistoryItem,
   StockBalanceReport,
   StockCountItem,
+  Product,
+  Sale,
 } from '../dto/dto';
 
 // const API_BASE_URL = 'http://localhost:3001/api';
@@ -22,7 +24,7 @@ api.interceptors.request.use((config) => {
 
 export default api;
 
-export const addProduct = async (product: any) => {
+export const addProduct = async (product: Omit<Product, 'id'>) => {
   const response = await axios.post(`${API_BASE_URL}/products`, { ...product });
   return response.data;
 };
@@ -56,7 +58,7 @@ export const getSale = async (id?: string) => {
 
 export const updateSale = async (
   id: string | undefined,
-  saleData: Partial<any>
+  saleData: Partial<Sale>
 ) => {
   const response = await api.put(`/sales/${id}`, saleData);
   return response.data;
@@ -74,7 +76,7 @@ export const getProduct = async (id?: string) => {
 
 export const updateProduct = async (
   id: string | undefined,
-  productData: Partial<any>
+  productData: Partial<Product>
 ) => {
   const response = await api.put(`/products/${id}`, productData);
   return response.data;
@@ -87,7 +89,7 @@ export const deleteProduct = async (id: string) => {
 
 // Stock Count and Stock Balance Report APIs
 
-export const submitStockCount = async (data: any) => {
+export const submitStockCount = async (data: Omit<StockCountItem, 'id'>) => {
   return axios.post(`${API_BASE_URL}/stock/counts`, data);
 };
 

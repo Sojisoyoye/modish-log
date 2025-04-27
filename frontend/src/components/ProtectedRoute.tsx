@@ -2,11 +2,11 @@ import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useUser } from '../context/user.context';
 
-// class ProtectedRouteProps {
-//   allowedRoles?: string[];
-// }
+interface ProtectedRouteProps {
+  allowedRoles?: string[];
+}
 
-const ProtectedRoute: React.FC<any> = ({ allowedRoles }) => {
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ allowedRoles }) => {
   const { user } = useUser();
 
   if (!user) {

@@ -8,13 +8,13 @@ import {
   TableRow,
   Paper,
 } from '@mui/material';
-// import { ReportHistoryItem } from '../dto/dto';
+import { ReportHistoryItem } from '../dto/dto';
 
-// class ReportHistoryTableProps {
-//   history!: ReportHistoryItem[];
-// }
+interface ReportHistoryTableProps {
+  history: ReportHistoryItem[];
+}
 
-const ReportHistoryTable: React.FC<any> = ({ history }) => {
+const ReportHistoryTable: React.FC<ReportHistoryTableProps> = ({ history }) => {
   return (
     <TableContainer component={Paper}>
       <Table>
@@ -29,7 +29,7 @@ const ReportHistoryTable: React.FC<any> = ({ history }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {history.map((item: any) => (
+          {history.map((item: ReportHistoryItem) => (
             <TableRow key={item.id}>
               <TableCell>{item.product.color}</TableCell>
               <TableCell>{item.product.size}</TableCell>

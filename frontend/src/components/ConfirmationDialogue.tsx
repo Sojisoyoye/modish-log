@@ -8,15 +8,15 @@ import {
   Typography,
 } from '@mui/material';
 
-// class ConfirmationDialogProps {
-//   open: boolean = false;
-//   onClose: () => void = () => {};
-//   onConfirm: () => void = () => {};
-//   title: string = '';
-//   message: string = '';
-// }
+interface ConfirmationDialogProps {
+  open: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
+  title: string;
+  message: string;
+}
 
-const ConfirmationDialog: React.FC<any> = ({
+const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
   open,
   onClose,
   onConfirm,
