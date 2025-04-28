@@ -2,6 +2,8 @@ name: Deploy
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
   deploy-backend:
@@ -23,11 +25,25 @@ jobs:
       - name: Install Railway CLI
         run: npm install -g @railway/cli
 
+      - name: Login to Railway
+        run: railway login
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+
+      - name: Link to Railway Project
+        run: railway link ${{ secrets.RAILWAY_PROJECT_ID }}
+
       - name: Run Database Migrations
         working-directory: backend
         run: |
           echo "Running database migrations..."
-          railway run --service ${{ secrets.RAILWAY_SERVICE_ID }} -- npm run typeorm:migration:run
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            # For PRs, use the preview environment
+            railway run --service ${{ secrets.RAILWAY_SERVICE_ID }} -- npm run typeorm:migration:run
+          else
+            # For main branch, use production environment
+            railway run --service ${{ secrets.RAILWAY_SERVICE_ID }} -- npm run typeorm:migration:run
+          fi
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
           RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
