@@ -27,6 +27,8 @@ export const AppDataSource = new DataSource({
         database: process.env.DB_DATABASE,
       }),
   entities: [User, Product, Sale, StockCount, StockBalanceReport],
-  synchronize: false, // Disable synchronize in production
-  migrations: ["src/migrations/*.ts"], // Path to your migration files
+  synchronize: false,
+  migrations: ["src/migrations/*.ts"],
+  migrationsTableName: "migrations",
+  migrationsRun: true,
 });
