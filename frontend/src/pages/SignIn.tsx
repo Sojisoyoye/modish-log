@@ -28,7 +28,8 @@ const SignIn: React.FC = () => {
       localStorage.setItem('access_token', response.data.access_token);
       navigate('/');
     } catch (err) {
-      setError('Invalid credentials');
+      console.error(err);
+      setError('Unable to sign in');
     }
   };
 

@@ -31,10 +31,14 @@ Frontend: http://localhost:3000
 
 `nmp start`
 
-**Hosted on railway**
+**Backend and Postgres DB Hosted on railway**
 
 - modish-log-production.up.railway.app
-- REACT_APP_API_URL=https://modish-log-production.up.railway.app
+- API_URL=https://modish-log-production.up.railway.app
+
+**Frontend hosted on Vercel
+
+- https://modish-log.vercel.app/
 
 **Swagger Documentation**
 

@@ -14,18 +14,18 @@ export class AuthController {
 
   @Post('signin')
   async signIn(@Body() signInDto: SignInDto) {
+    try {
     const user = await this.authService.signIn(signInDto.username, signInDto.password);
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
     return user;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error('Error during sign-in: ' + error);
+      } else {
+        throw new Error('Error during sign-in: Unknown error');
+      }
+    }
   }
-
-  // @Post('signout')
-  // @UseGuards(AuthGuard('jwt')) // Protect this route with JWT
-  // async signOut(@Req() req: any) {
-  //   // Invalidate the token (e.g., add it to a blacklist)
-  //   await this.authService.invalidateToken(req.user.token);
-  //   return { message: 'Signed out successfully' };
-  // }
 }
