@@ -1,6 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config'; // Import ConfigService
+import { ConfigService } from '@nestjs/config';
 import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcrypt';
 
@@ -9,7 +9,7 @@ export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
-    private configService: ConfigService, // Inject ConfigService
+    private configService: ConfigService,
   ) {}
 
   async signIn(username: string, password: string): Promise<{ id: number, username: string, role: string, access_token: string }> {

@@ -3,7 +3,7 @@ import {
   Controller, 
   Post, 
   UnauthorizedException,
-  UseGuards } from '@nestjs/common';
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignInDto } from './dto/signin.dto';
 
