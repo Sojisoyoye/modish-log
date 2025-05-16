@@ -10,14 +10,14 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ allowedRoles }) => {
   const { user } = useUser();
 
   if (!user) {
-    return <Navigate to="/signin" />; // Redirect to sign-in if not authenticated
+    return <Navigate to="/signin" />;
   }
 
   if (allowedRoles && !allowedRoles.includes(user.role)) {
-    return <Navigate to="/" />; // Redirect to home if role is not allowed
+    return <Navigate to="/" />;
   }
 
-  return <Outlet />; // Render the child routes if authorized
+  return <Outlet />;
 };
 
 export default ProtectedRoute;

@@ -6,19 +6,19 @@ export class Sale {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  @Column({ type: "decimal", precision: 4, scale: 1, nullable: false }) // Allows decimal values
+  @Column({ type: "decimal", precision: 4, scale: 1, nullable: false })
   quantitySold!: number;
 
-  @Column('decimal', { precision: 10, scale: 2 }) // Store price as a decimal
+  @Column('decimal', { precision: 10, scale: 2 })
   price!: number;
 
   @Column()
   saleDate!: Date;
 
-  @Column('boolean', { default: false }) // Default to unpaid
+  @Column('boolean', { default: false })
   paid!: boolean;
 
-  @Column('text', { nullable: true }) // Allow null comments
+  @Column('text', { nullable: true })
   comment!: string;
 
   @ManyToOne(() => Product, (product) => product.sales)

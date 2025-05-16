@@ -5,7 +5,13 @@ export class Product {
   quantity: number;
   price: number;
 
-  constructor(id: string, color: string, size: string, quantity: number, price: number) {
+  constructor(
+    id: string,
+    color: string,
+    size: string,
+    quantity: number,
+    price: number
+  ) {
     this.id = id;
     this.color = color;
     this.size = size;
@@ -14,10 +20,45 @@ export class Product {
   }
 }
 
+// class Product {
+//   id!: string;
+//   color!: string;
+//   size!: string;
+//   price!: number;
+//   quantity!: number;
+// }
+
 export interface Sale {
+  id: string;
   quantitySold: number;
+  saleDate: string;
   price: number;
+  paid: boolean;
+  comment: string;
+  product: {
+    color: string;
+    size: string;
+    price: number;
+  };
 }
+
+// class Sale {
+//   id: string = '';
+//   quantitySold: number = 0;
+//   saleDate: string = '';
+//   price: number = 0;
+//   paid: boolean = false;
+//   comment: string = '';
+//   product: {
+//     id: number;
+//     color: string;
+//     size: string;
+//   } = {
+//     id: 0,
+//     color: '',
+//     size: '',
+//   };
+// }
 
 export class StockCount {
   productId: string;

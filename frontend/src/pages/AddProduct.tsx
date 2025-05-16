@@ -45,7 +45,7 @@ const AddProduct: React.FC = () => {
   };
 
   const handleCancel = () => {
-    navigate('/products'); // Redirect to products list on cancel
+    navigate('/products');
   };
 
   return (

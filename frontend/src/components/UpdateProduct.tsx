@@ -28,6 +28,10 @@ const UpdateProduct: React.FC = () => {
 
   useEffect(() => {
     const fetchProduct = async () => {
+      if (!id) {
+        setMessage('Invalid product ID');
+        return;
+      }
       try {
         const product = await getProduct(id);
         product && setProduct(product);
@@ -41,16 +45,20 @@ const UpdateProduct: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      if (!id) {
+        setMessage('Invalid product ID');
+        return;
+      }
       await updateProduct(id, product);
       setMessage('Product updated successfully!');
-      navigate('/products'); // Redirect to products list after successful update
+      navigate('/products');
     } catch (err) {
       setMessage('Failed to update product');
     }
   };
 
   const handleCancel = () => {
-    navigate('/products'); // Redirect to products list on cancel
+    navigate('/products');
   };
 
   return (

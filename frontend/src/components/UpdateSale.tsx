@@ -29,9 +29,15 @@ const UpdateSale: React.FC = () => {
 
   useEffect(() => {
     const fetchSale = async () => {
+      if (!id) {
+        setMessage('Invalid sale ID');
+        return;
+      }
       try {
-        const sale = await getSale(id);
-        sale && setSale(sale);
+        const saleData = await getSale(id);
+        if (saleData) {
+          setSale(saleData);
+        }
       } catch (err) {
         setMessage('Failed to fetch sale');
       }
@@ -44,16 +50,20 @@ const UpdateSale: React.FC = () => {
     try {
       const newPrice = sale.product.price * sale.quantitySold;
       const updatedSale = { ...sale, price: newPrice };
+      if (!id) {
+        setMessage('Invalid sale ID');
+        return;
+      }
       await updateSale(id, updatedSale);
       setMessage('Sale updated successfully!');
-      navigate('/sales'); // Redirect to sales list after successful update
+      navigate('/sales');
     } catch (err) {
       setMessage('Failed to update sale');
     }
   };
 
   const handleCancel = () => {
-    navigate('/sales'); // Redirect to sales list on cancel
+    navigate('/sales');
   };
 
   return (

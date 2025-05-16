@@ -14,14 +14,15 @@ import {
   Checkbox,
 } from '@mui/material';
 import { addSale, getProducts } from '../api/api';
+import { Product } from '../dto/dto';
 
-class Product {
-  id!: string;
-  color!: string;
-  size!: string;
-  price!: number;
-  quantity!: number;
-}
+// class Product {
+//   id!: string;
+//   color!: string;
+//   size!: string;
+//   price!: number;
+//   quantity!: number;
+// }
 
 const AddSale: React.FC = () => {
   const navigate = useNavigate();

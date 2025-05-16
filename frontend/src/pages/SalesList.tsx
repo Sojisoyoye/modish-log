@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useEffect, useState } from 'react';
 import { SxProps, Theme } from '@mui/material/styles';
 import { deleteSale, getSales } from '../api/api';
@@ -19,35 +18,18 @@ import {
 import { formatNumber } from '../utils';
 import { useNavigate } from 'react-router-dom';
 import ConfirmationDialog from '../components/ConfirmationDialogue';
+import { Sale } from '../dto/dto';
 
-class Sale {
-  id: string = '';
-  quantitySold: number = 0;
-  saleDate: string = '';
-  price: number = 0;
-  paid: boolean = false;
-  comment: string = '';
-  product: {
-    id: number;
-    color: string;
-    size: string;
-  } = {
-    id: 0,
-    color: '',
-    size: '',
-  };
-}
-
-interface SalesProps {
-  sales: Sale[];
-  message: string | null;
-  deleteDialogOpen: boolean;
-  handleDeleteClick: (id: string) => void;
-  handleDeleteCancel: () => void;
-  handleDeleteConfirm: () => void;
-  navigate: (path: string) => void;
-  formatNumber: (num: number) => string;
-}
+// interface SalesProps {
+//   sales: Sale[];
+//   message: string | null;
+//   deleteDialogOpen: boolean;
+//   handleDeleteClick: (id: string) => void;
+//   handleDeleteCancel: () => void;
+//   handleDeleteConfirm: () => void;
+//   navigate: (path: string) => void;
+//   formatNumber: (num: number) => string;
+// }
 
 const SalesList: React.FC = () => {
   const navigate = useNavigate();
