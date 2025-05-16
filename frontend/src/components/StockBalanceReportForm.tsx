@@ -26,7 +26,7 @@ const StockBalanceReportForm: React.FC<StockBalanceReportFormProps> = ({
   const handleSubmit = async () => {
     try {
       const response = await generateStockBalanceReport(filters);
-      onReportGenerated(response.data);
+      onReportGenerated(response);
     } catch (error) {
       console.error('Error generating report:', error);
       setMessage(`Failed to submit stock count. Please check again.`);

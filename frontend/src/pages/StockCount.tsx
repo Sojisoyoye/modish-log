@@ -29,7 +29,7 @@ const StockCount: React.FC = () => {
   const fetchStockCounts = async () => {
     try {
       const response = await getStockCount();
-      setStockCounts(response.data);
+      setStockCounts(response);
       setMessage('');
     } catch (error) {
       setMessage('Failed to fetch stock counts');

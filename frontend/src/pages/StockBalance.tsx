@@ -13,7 +13,7 @@ const StockBalance: React.FC = () => {
   const handleFetchReportHistory = async () => {
     try {
       const response = await fetchReportHistory();
-      setReportHistory(response.data);
+      setReportHistory(response);
     } catch (error) {
       console.error('Error fetching report history:', error);
       alert('Failed to fetch report history.');
