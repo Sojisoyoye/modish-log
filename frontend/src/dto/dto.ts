@@ -103,3 +103,16 @@ export interface StockCountItem {
   countedQuantity: number;
   countDate: string;
 }
+
+export interface User {
+  id: string;
+  username: string;
+  password: string;
+  role: string;
+}
+
+export class CreateUserDto {
+  username!: string;
+  password!: string;
+  role!: string;
+}

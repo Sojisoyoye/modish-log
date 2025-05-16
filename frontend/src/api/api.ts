@@ -5,6 +5,7 @@ import {
   StockCountItem,
   Product,
   Sale,
+  User,
 } from '../dto/dto';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL;
@@ -128,18 +129,13 @@ export const fetchReportHistory = async (): Promise<ReportHistoryItem[]> => {
 };
 
 // User APIs
-export class CreateUserDto {
-  username!: string;
-  password!: string;
-  role!: string;
-}
 
-export const getUsers = async (): Promise<any[]> => {
+export const getUsers = async (): Promise<User[]> => {
   const { data } = await api.get(ENDPOINTS.users);
   return data;
 };
 
-export const createUser = async (user: CreateUserDto): Promise<any> => {
+export const createUser = async (user: Omit<User, 'id'>): Promise<User> => {
   const { data } = await api.post(ENDPOINTS.users, user);
   return data;
 };

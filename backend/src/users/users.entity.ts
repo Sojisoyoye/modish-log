@@ -1,9 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, Unique } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, Unique } from "typeorm";
 
 @Entity()
-@Unique(['username']) // Ensure usernames are unique
+@Unique(["username"])
 export class User {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id!: number;
 
   @Column()
