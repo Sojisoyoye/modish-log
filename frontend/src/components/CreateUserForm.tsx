@@ -11,7 +11,7 @@ import {
   InputLabel,
   FormControl,
 } from '@mui/material';
-import api from '../api/api';
+import { createUser } from '../api/api';
 
 const CreateUserForm: React.FC = () => {
   const [username, setUsername] = useState<string>('');
@@ -23,14 +23,12 @@ const CreateUserForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await api.post('http://localhost:3001/api/users', {
-        username,
-        password,
-        role,
-      });
+      await createUser({ username, password, role });
+      setUsername('');
+      setPassword('');
+      setRole('User');
       navigate('/');
     } catch (err) {
-      console.log(err);
       setError('Failed to create user');
     }
   };

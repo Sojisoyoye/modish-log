@@ -23,8 +23,8 @@ export class AuthService {
       username: user.username,
       role: user.role,
       access_token: this.jwtService.sign(payload, {
-        secret: this.configService.get<string>('JWT_SECRET'), // Use JWT_SECRET from .env
-        expiresIn: this.configService.get<string>('JWT_EXPIRES_IN'), // Use JWT_EXPIRES_IN from .env
+        secret: this.configService.get<string>('JWT_SECRET'),
+        expiresIn: this.configService.get<string>('JWT_EXPIRES_IN'),
       }),
     };
   }

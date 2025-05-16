@@ -8,6 +8,15 @@ import {
 } from '../dto/dto';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL;
+
+const ENDPOINTS = {
+  products: '/products',
+  sales: '/sales',
+  stockCounts: '/stock/counts',
+  stockBalanceReports: '/stock/balance-reports',
+  users: '/users',
+};
+
 const api = axios.create({
   baseURL: `${API_BASE_URL}/api`,
 });
@@ -20,18 +29,37 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-export default api;
-
-export const addProduct = async (product: Omit<Product, 'id'>) => {
-  const response = await axios.post(`${API_BASE_URL}/products`, { ...product });
-  return response.data;
+// Product APIs
+export const addProduct = async (
+  product: Omit<Product, 'id'>
+): Promise<Product> => {
+  const { data } = await api.post(ENDPOINTS.products, product);
+  return data;
 };
 
-export const getProducts = async () => {
-  const response = await axios.get(`${API_BASE_URL}/products`);
-  return response.data;
+export const getProducts = async (): Promise<Product[]> => {
+  const { data } = await api.get(ENDPOINTS.products);
+  return data;
 };
 
+export const getProduct = async (id: string): Promise<Product> => {
+  const { data } = await api.get(`${ENDPOINTS.products}/${id}`);
+  return data;
+};
+
+export const updateProduct = async (
+  id: string,
+  productData: Partial<Product>
+): Promise<Product> => {
+  const { data } = await api.put(`${ENDPOINTS.products}/${id}`, productData);
+  return data;
+};
+
+export const deleteProduct = async (id: string): Promise<void> => {
+  await api.delete(`${ENDPOINTS.products}/${id}`);
+};
+
+// Sale APIs
 export class CreateSaleDto {
   productId!: string;
   quantitySold!: number;
@@ -39,82 +67,81 @@ export class CreateSaleDto {
   comment!: string;
 }
 
-export const addSale = async (sale: CreateSaleDto) => {
-  const response = await axios.post(`${API_BASE_URL}/sales`, { ...sale });
-  return response.data;
+export const addSale = async (sale: CreateSaleDto): Promise<Sale> => {
+  const { data } = await api.post(ENDPOINTS.sales, sale);
+  return data;
 };
 
-export const getSales = async () => {
-  const response = await axios.get(`${API_BASE_URL}/sales`);
-  return response.data;
+export const getSales = async (): Promise<Sale[]> => {
+  const { data } = await api.get(ENDPOINTS.sales);
+  return data;
 };
 
-export const getSale = async (id?: string) => {
-  const response = await api.get(`${API_BASE_URL}/sales/${id}`);
-  return response.data;
+export const getSale = async (id: string): Promise<Sale> => {
+  const { data } = await api.get(`${ENDPOINTS.sales}/${id}`);
+  return data;
 };
 
 export const updateSale = async (
-  id: string | undefined,
+  id: string,
   saleData: Partial<Sale>
-) => {
-  const response = await api.put(`/sales/${id}`, saleData);
-  return response.data;
+): Promise<Sale> => {
+  const { data } = await api.put(`${ENDPOINTS.sales}/${id}`, saleData);
+  return data;
 };
 
-export const deleteSale = async (id: string) => {
-  const response = await api.delete(`/sales/${id}`);
-  return response.data;
+export const deleteSale = async (id: string): Promise<void> => {
+  await api.delete(`${ENDPOINTS.sales}/${id}`);
 };
 
-export const getProduct = async (id?: string) => {
-  const response = await api.get(`${API_BASE_URL}/products/${id}`);
-  return response.data;
-};
-
-export const updateProduct = async (
-  id: string | undefined,
-  productData: Partial<Product>
-) => {
-  const response = await api.put(`/products/${id}`, productData);
-  return response.data;
-};
-
-export const deleteProduct = async (id: string) => {
-  const response = await api.delete(`/products/${id}`);
-  return response.data;
-};
-
-// Stock Count and Stock Balance Report APIs
-
+// Stock Count APIs
 export const submitStockCount = async (data: {
   productId: string;
   countedQuantity: number;
   countDate: string;
-}) => {
-  return axios.post(`${API_BASE_URL}/stock/counts`, data);
+}): Promise<StockCountItem> => {
+  const { data: result } = await api.post(ENDPOINTS.stockCounts, data);
+  return result;
 };
 
-export const getStockCount = async () => {
-  return axios.get<StockCountItem[]>(`${API_BASE_URL}/stock/counts`);
+export const getStockCount = async (): Promise<StockCountItem[]> => {
+  const { data } = await api.get(ENDPOINTS.stockCounts);
+  return data;
 };
 
+export const deleteStockCount = async (id: string): Promise<void> => {
+  await api.delete(`${ENDPOINTS.stockCounts}/${id}`);
+};
+
+// Stock Balance Report APIs
 export const generateStockBalanceReport = async (data: {
   startDate: string;
   endDate: string;
-}) => {
-  return axios.post<StockBalanceReport[]>(
-    `${API_BASE_URL}/stock/balance-reports`,
-    data
-  );
+}): Promise<StockBalanceReport[]> => {
+  const { data: result } = await api.post(ENDPOINTS.stockBalanceReports, data);
+  return result;
 };
 
-export const fetchReportHistory = async () => {
-  return axios.get<ReportHistoryItem[]>(
-    `${API_BASE_URL}/stock/balance-reports`
-  );
+export const fetchReportHistory = async (): Promise<ReportHistoryItem[]> => {
+  const { data } = await api.get(ENDPOINTS.stockBalanceReports);
+  return data;
 };
 
-export const deleteStockCount = async (id: string) => {
-  return axios.delete(`${API_BASE_URL}/stock/counts/${id}`);
+// User APIs
+export class CreateUserDto {
+  username!: string;
+  password!: string;
+  role!: string;
+}
+
+export const getUsers = async (): Promise<any[]> => {
+  const { data } = await api.get(ENDPOINTS.users);
+  return data;
 };
+
+export const createUser = async (user: CreateUserDto): Promise<any> => {
+  const { data } = await api.post(ENDPOINTS.users, user);
+  return data;
+};
+
+export default api;
