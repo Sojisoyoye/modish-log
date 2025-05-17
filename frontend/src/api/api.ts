@@ -140,4 +140,16 @@ export const createUser = async (user: Omit<User, 'id'>): Promise<User> => {
   return data;
 };
 
+export const updateUser = async (
+  id: string,
+  userData: Partial<User>
+): Promise<User> => {
+  const { data } = await api.put(`${ENDPOINTS.users}/${id}`, userData);
+  return data;
+};
+
+export const deleteUser = async (id: string): Promise<void> => {
+  return await api.delete(`${ENDPOINTS.users}/${id}`);
+};
+
 export default api;

@@ -13,6 +13,7 @@ import UpdateSale from '../components/UpdateSale';
 import StockCount from '../pages/StockCount';
 import GenerateStockBalance from '../pages/Stock';
 import StockBalance from '../pages/StockBalance';
+import Users from '../pages/Users';
 
 const AppRoutes: React.FC = () => {
   return (
@@ -36,6 +37,7 @@ const AppRoutes: React.FC = () => {
       {/* Admin-Only Routes */}
       <Route element={<ProtectedRoute allowedRoles={['Admin']} />}>
         <Route path="/create-user" element={<CreateUser />} />
+        <Route path="/users" element={<Users />} />
         <Route path="/add-product" element={<AddProduct />} />
         <Route path="/update-product/:id" element={<UpdateProduct />} />
         <Route

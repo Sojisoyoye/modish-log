@@ -54,6 +54,8 @@ const Navbar: React.FC<NavbarProps> = ({ children }) => {
 
   const adminNavigationItems = [
     { text: 'Create User', path: '/create-user', icon: <CreateUserIcon /> },
+    { text: 'Users', path: '/users', icon: <CreateUserIcon /> },
+    { text: 'Update Product', path: '/update-product/:id', icon: <AddProductIcon /> },
     { text: 'Add Product', path: '/add-product', icon: <AddProductIcon /> },
     { text: 'Stock Count', path: '/stock-count', icon: <StockCountIcon /> },
     {
