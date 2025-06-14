@@ -23,7 +23,7 @@ const Navbar: React.FC<NavbarProps> = ({ children }) => {
   const navigate = useNavigate();
   const userContext = useUser();
 
-  const isAdmin = userContext?.user?.role === 'ADMIN';
+  const isAdmin = userContext?.user?.role === 'admin';
 
   const handleDrawerToggle = () => {
     setDrawerOpen(!drawerOpen);
@@ -98,7 +98,10 @@ const Navbar: React.FC<NavbarProps> = ({ children }) => {
                 key={item.text}
                 to={item.path}
                 className="flex items-center p-3 rounded-lg text-gray-700 hover:bg-blue-50 mb-1"
-                onClick={() => setDrawerOpen(false)}
+                onClick={() => {
+                  navigate(item.path);
+                  setDrawerOpen(false);
+                }}
               >
                 <div className="mr-3 text-blue-500">{item.icon}</div>
                 <span>{item.text}</span>
