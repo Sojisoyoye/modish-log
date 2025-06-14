@@ -1,167 +1,307 @@
-# modish-log
+# Modish-Log
 
-MODISH LOG/INVENTORY
+A comprehensive inventory management system for retail businesses with product, sales, and stock tracking features.
 
-Run the following command in the root directory:
+## Overview
 
-**To run the app together with docker compose, ensure there is database, backend and frontend set up in the docker compose file**
+Modish-Log is a full-stack application built with:
 
-`docker-compose up --build`
+- **Frontend**: React with TypeScript and Tailwind CSS
+- **Backend**: NestJS with TypeScript
+- **Database**: PostgreSQL
+- **Containerization**: Docker and Docker Compose
 
-subsequentely run:
+The application allows businesses to:
 
-`docker-compose up`
+- Manage products inventory
+- Record and track sales
+- Perform stock counts
+- Generate stock balance reports
+- User management with role-based access control
 
-Backend: http://localhost:3001
+## Running the App with Docker Compose
 
-Frontend: http://localhost:3000
+For easy startup and development, we've created scripts to manage the application:
 
+### Quick Start
 
-**To run the app seperately**
+1. Make sure you have Docker and Docker Compose installed on your system
+2. Run the following command in the root directory:
 
-- To run the database, comment out the backend and frontend docker setups, then from the root folder, run for database:
+docker-compose up
 
-`docker-compose up`
+### Access the Application
 
-- For backend, cd into backend folder and run:
+- Frontend: http://localhost:3002
+- Backend API: http://localhost:3001
+- Database: PostgreSQL running on port 5432
 
-`npm run start:dev`
+### Running Components Separately
 
-- For frontend, cd into frontend folder and run:
+If you prefer to run components individually:
 
-`nmp start`
+- **Backend only**: Navigate to the backend folder and run:
 
-**Backend and Postgres DB Hosted on railway**
+  ```bash
+  cd backend
+  npm install
+  npm run start
+  ```
 
-- modish-log-production.up.railway.app
-- API_URL=https://modish-log-production.up.railway.app
+- **Frontend only**: Navigate to the frontend folder and run:
+  ```bash
+  cd frontend
+  npm install
+  npm start
+  ```
 
-**Frontend hosted on Vercel
+### API Documentation
 
-- https://modish-log.vercel.app/
+The backend provides a Swagger UI for API documentation:
 
-**Swagger Documentation**
+- Visit http://localhost:3001/api to view the Swagger UI
 
-Visit http://localhost:3001/api to view the Swagger UI.
+### Production Deployments
 
-# modish-inventory
+- **Backend and PostgreSQL DB**: Hosted on Railway
 
-## User
+  - API URL: https://modish-log-production.up.railway.app
 
-- User can create/add sale ✅
-- User can get all sales ✅
-- User can get a sale ✅
-- User can edit sale ✅
-- User can delete sale ✅
-- User can see sale history of a product
-- User can see all products with just only quantity left column
-- User can see a product with just only quantity left column alone
+- **Frontend**: Hosted on Vercel
+  - URL: https://modish-log.vercel.app/
 
-## Admin
+## Features
 
-- Admin can create/add product ✅
-- Admin can get a product ✅
-- Admin can get all products ✅
-- Admin can edit a product ✅
-- Admin can delete product ✅
-- can add quantities to existing product 
+### User Management
 
-## User Auth
+| Feature                       | Status |
+| ----------------------------- | ------ |
+| User login                    | ✅     |
+| User logout                   | ✅     |
+| Role-based access control     | ✅     |
+| Create new users (Admin only) | ✅     |
+| View user list (Admin only)   | ✅     |
+| Edit user roles               | ✅     |
+| Reset password                | ⏳     |
 
-- Admin can create a user  ✅
-- Admin can get users  ✅
-- Admin can get a user  ✅
-- User can login  ✅
-- User can log out  ✅
-- Admin can delete/deactivate user 
-- User can reset password
+### Product Management
 
+| Feature                             | Status |
+| ----------------------------------- | ------ |
+| Create/add products                 | ✅     |
+| View all products                   | ✅     |
+| View single product                 | ✅     |
+| Edit/update products                | ✅     |
+| Delete products                     | ✅     |
+| Add quantities to existing products | ✅     |
 
-:TODO
+### Sales Management
 
-- Get users list ui
-- Admin edit user (role, reset password) action on user list
+| Feature                          | Status |
+| -------------------------------- | ------ |
+| Create/add sales                 | ✅     |
+| View all sales                   | ✅     |
+| View individual sale             | ✅     |
+| Edit sales                       | ✅     |
+| Delete sales                     | ✅     |
+| Update sale status (paid/unpaid) | ✅     |
+| Add comments to sales            | ✅     |
+| View product sale history        | ✅     |
 
+### Stock Management
 
-**MVP**
-- Edit sale - to add/remove product price or color/size ✅
-- Update sale status to paid/unpaid ✅
-- Add comments to sale ✅
-- Delete sale ✅
-- Delete product ✅
-- Edit / Update product ✅
-- Enter Counted goods and automatic stock balance - should tell which is short or more. ✅
-- Product price update should not affect previous sales value. 
+| Feature                                  | Status |
+| ---------------------------------------- | ------ |
+| Enter counted goods                      | ✅     |
+| Generate automatic stock balance reports | ✅     |
+| Track stock shortages or overages        | ✅     |
+| View products with quantity remaining    | ✅     |
 
-**EXTRAS**
-- Total value of stock/goods remaining 
-- Total sales per day 
+### Data Management
+
+| Feature                                   | Status |
+| ----------------------------------------- | ------ |
+| Price history tracking                    | ✅     |
+| Price updates don't affect previous sales | ✅     |
+
+## Planned Enhancements
+
+- Total value of stock/goods remaining
+- Total sales per day
 - Filter sales by date
 - Attach payment receipt to sale
 
-**TO CHECK IF IMPLEMENTED**
-- Create history to show sales date change in stock and all
-- validate that sale quantity can not be zero
-- validate that negative value can not be entered for create sale and product
-- validate that negative value can not be entered for update product
+## Development Guidelines
 
+### Validation Rules
 
-**To run Migration**
+- Sale quantity cannot be zero
+- Negative values are not allowed for product quantities
+- Negative values are not allowed for sale quantities
+- Negative values are not allowed for product price updates
 
-Run the command 
+### Quality Checks
 
-`npm run typeorm:migration:generate -- ./src/migrations/Filename`
+- Create history entries to show sales date changes in stock
+- Implement comprehensive error handling
+- Add form validation on frontend
+- Ensure responsive design for all screen sizes
 
-Example:
-`npm run typeorm:migration:generate -- ./src/migrations/UpdateProductPriceColumn`
+## API Reference
 
-Then after the migration file is generated, run
+### Products API
 
-`npm run typeorm:migration:run`
+#### Create a Product
 
-*POST /products*
+```http
+POST /api/products
 ```
+
+Request body:
+
+```json
 {
-  "color": "Akala",
-  "size": "0.5mm by 21mm",
+  "color": "Red",
+  "size": "M",
   "quantity": 100,
-  "price": 10.50
+  "price": 10.5
 }
 ```
 
-```
-const product = this.productsRepository.create({
-  color: 'Akala',
-  size: '0.5mm by 21mm',
-  price: 10.50, // Must have 2 decimal places
-  quantity: 100,
-});
-await this.productsRepository.save(product);
+#### Update a Product
+
+```http
+PUT /api/products/:id
 ```
 
-*Updating a Product*
+Request body:
 
-```
-await this.productsRepository.update(id, {
-  price: 15.75, // Must have 2 decimal places
-});
-```
-
-*POST /sales*
-
-```
+```json
 {
-  "productId": 1,
+  "price": 15.75,
+  "quantity": 150
+}
+```
+
+### Sales API
+
+#### Create a Sale
+
+```http
+POST /api/sales
+```
+
+Request body:
+
+```json
+{
+  "productId": "uuid-here",
   "quantitySold": 5
 }
 ```
 
-*POST /users*
+### Users API
 
+#### Create a User
+
+```http
+POST /api/users
 ```
+
+Request body:
+
+```json
 {
-  "username": "admin",
+  "username": "username",
   "password": "password123",
-  "role": "Admin"
+  "role": "admin"
 }
 ```
+
+## Database Information
+
+### Entity Relationship
+
+The database consists of the following main entities:
+
+- **User**: Stores user accounts with authentication details and roles
+- **Product**: Manages product information including color, size, quantity, and price
+- **Sale**: Records sales transactions linked to products
+- **StockCount**: Tracks manual stock counting operations
+- **StockBalanceReport**: Stores reports comparing actual stock counts to expected inventory levels
+
+### Database Migrations
+
+If you need to create a new migration:
+
+```bash
+cd backend
+npm run typeorm:migration:generate -- ./src/migrations/YourMigrationName
+```
+
+To run migrations manually:
+
+```bash
+npm run typeorm:migration:run
+```
+
+### New Migration Strategy
+
+The application now uses TypeScript migration files that:
+
+1. Create all necessary database tables with proper relationships
+2. Add seed data including admin user and sample products
+3. Create indexes for performance optimization
+
+## Verification and Testing
+
+The application has been thoroughly tested with the following verifications:
+
+1. Database tables properly created (user, product, sale, stock_count, stock_balance_report)
+2. Admin user creation and authentication working
+3. Product management (CRUD operations) functioning correctly
+4. Sales recording functionality operational
+5. Stock counting and reporting features working as expected
+
+## Security
+
+The application implements several security measures:
+
+1. **Authentication**: JWT-based authentication with token expiration
+2. **Password Security**: Passwords are hashed using bcrypt before storage
+3. **Authorization**: Role-based access control for protected endpoints
+4. **Input Validation**: Server-side validation for all API requests
+
+
+## Troubleshooting
+
+1. Check Docker container logs: `docker logs [container-name]`
+
+
+## Technical Architecture
+
+### Technologies Used
+
+#### Backend
+
+- **Framework**: NestJS with TypeScript
+- **Database**: PostgreSQL with TypeORM
+- **Authentication**: JWT-based with role-based access control
+- **API Documentation**: Swagger UI
+
+#### Frontend
+
+- **Framework**: React with TypeScript
+- **Styling**: Tailwind CSS
+- **State Management**: React Context API
+- **API Communication**: Axios
+
+#### Infrastructure
+
+- **Containerization**: Docker and Docker Compose
+- **CI/CD**: Vercel (frontend) and Render (backend)
+- **Version Control**: Git
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.

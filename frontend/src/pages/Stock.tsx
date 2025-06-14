@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Container, Typography } from '@mui/material';
 import { StockBalanceReport } from '../dto/dto';
 import StockBalanceReportForm from '../components/StockBalanceReportForm';
 import StockBalanceReportTable from '../components/StockBalanceReportTable';
@@ -10,19 +9,19 @@ const GenerateStockBalance: React.FC = () => {
   >([]);
 
   return (
-    <Container>
+    <div className="container mx-auto px-4 py-6">
       {/* generate stock balance report is to trigger stock balance for all products within 
       a start date and end date after stock count */}
       <StockBalanceReportForm onReportGenerated={setStockBalanceReport} />
       {stockBalanceReport.length > 0 && (
         <>
-          <Typography variant="h5" gutterBottom style={{ marginTop: '2rem' }}>
+          <h2 className="text-xl font-semibold mt-8 mb-4">
             Generated Stock Balance
-          </Typography>
+          </h2>
           <StockBalanceReportTable report={stockBalanceReport} />
         </>
       )}
-    </Container>
+    </div>
   );
 };
 

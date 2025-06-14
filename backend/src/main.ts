@@ -3,54 +3,36 @@ import { AppModule } from "./app.module";
 import { ValidationPipe } from "@nestjs/common";
 import { SwaggerModule, DocumentBuilder } from "@nestjs/swagger";
 import { AppDataSource } from "./data-source";
-import * as bcrypt from "bcrypt";
 
 const APP_PORT = 3001;
 
-async function seedAdmin() {
-  try {
-    const adminPassword = process.env.ADMIN_PASSWORD;
-    if (!adminPassword) {
-      console.warn("ADMIN_PASSWORD not set. Skipping admin seeding.");
-      return;
-    }
-
-    const adminUser = await AppDataSource.query(
-      `SELECT * FROM "user" WHERE username = 'admin'`
-    );
-
-    if (adminUser.length === 0) {
-      console.log("Admin user not found. Creating new admin user...");
-      const hashedPassword = await bcrypt.hash(adminPassword, 10);
-      await AppDataSource.query(
-        `INSERT INTO "user" (username, password, role) VALUES ('admin', $1, 'Admin')`,
-        [hashedPassword]
-      );
-      console.log("Admin user created successfully");
-    } else {
-      console.log("Found existing admin user. Updating password...");
-      const hashedPassword = await bcrypt.hash(adminPassword, 10);
-      await AppDataSource.query(
-        `UPDATE "user" SET password = $1 WHERE username = 'admin'`,
-        [hashedPassword]
-      );
-      console.log("Admin user password updated successfully");
-    }
-  } catch (error) {
-    console.error("Error during admin seeding:", error);
-  }
-}
-
 async function bootstrap() {
   try {
-    await AppDataSource.initialize();
-    console.log("Database connection initialized");
+    console.log("Initializing database connection...");
+    await AppDataSource.initialize()
+      .then(() => {
+        console.log("Database connection initialized successfully");
+      })
+      .catch((error) => {
+        console.error("Error during database initialization:", error);
+        throw error;
+      });
 
     console.log("Running database migrations...");
-    await AppDataSource.runMigrations();
-    console.log("Migrations completed successfully");
-
-    await seedAdmin();
+    try {
+      const migrations = await AppDataSource.runMigrations();
+      console.log(
+        `Migrations completed successfully. Ran ${migrations.length} migrations`
+      );
+      migrations.forEach((migration) => {
+        console.log(`- ${migration.name}`);
+      });
+    } catch (error) {
+      console.error("Error during migrations:", error);
+      console.warn(
+        "Application will continue without running migrations."
+      );
+    }
 
     const app = await NestFactory.create(AppModule);
     app.useGlobalPipes(
@@ -66,9 +48,12 @@ async function bootstrap() {
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup("api", app, document);
 
-    // CORS configuration
     app.enableCors({
-      origin: "https://modish-log.vercel.app",
+      origin: [
+        "https://modish-log.vercel.app",
+        "http://localhost:3002",
+        "http://localhost:3000",
+      ],
       methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
       credentials: true,
       allowedHeaders: [

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { TextField, Button, Typography, Paper } from '@mui/material';
 import { submitStockCount } from '../api/api';
 import { useNavigate } from 'react-router-dom';
 
@@ -24,7 +23,8 @@ const StockCountForm: React.FC = () => {
     setStockCount({ ...stockCount, [name]: value });
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     try {
       await submitStockCount({
         productId: stockCount.productId,
@@ -43,74 +43,84 @@ const StockCountForm: React.FC = () => {
   };
 
   return (
-    <Paper elevation={3} sx={{ padding: 4, marginTop: 4 }}>
-      <Typography variant="h4" gutterBottom>
-        Add Stock Count
-      </Typography>
+    <div className="bg-white rounded-lg shadow-md p-6 mt-4">
+      <h1 className="text-2xl font-bold mb-6">Add Stock Count</h1>
       <form onSubmit={handleSubmit}>
-        <TextField
-          label="Product ID"
-          name="productId"
-          value={stockCount.productId}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-          required
-        />
-        <TextField
-          label="Counted Quantity"
-          name="countedQuantity"
-          value={stockCount.countedQuantity}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-          type="number"
-          required
-        />
-        <TextField
-          label="Count Date"
-          name="countDate"
-          type="date"
-          InputLabelProps={{ shrink: true }}
-          value={stockCount.countDate}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-          required
-        />
-        <Button
-          type="button"
-          variant="contained"
-          color="primary"
-          fullWidth
-          sx={{ marginTop: 2 }}
-          onClick={handleSubmit}
-        >
-          Submit Stock Count
-        </Button>
-        <Button
-          type="button"
-          variant="outlined"
-          color="secondary"
-          fullWidth
-          sx={{ marginTop: 2 }}
-          onClick={handleCancel}
-        >
-          Cancel
-        </Button>
+        <div className="mb-4">
+          <label
+            htmlFor="productId"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
+            Product ID
+          </label>
+          <input
+            id="productId"
+            name="productId"
+            type="text"
+            value={stockCount.productId}
+            onChange={handleChange}
+            className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label
+            htmlFor="countedQuantity"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
+            Counted Quantity
+          </label>
+          <input
+            id="countedQuantity"
+            name="countedQuantity"
+            type="number"
+            value={stockCount.countedQuantity}
+            onChange={handleChange}
+            className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            required
+          />
+        </div>
+        <div className="mb-6">
+          <label
+            htmlFor="countDate"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
+            Count Date
+          </label>
+          <input
+            id="countDate"
+            name="countDate"
+            type="date"
+            value={stockCount.countDate}
+            onChange={handleChange}
+            className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            required
+          />
+        </div>
+        <div className="space-y-3">
+          <button
+            type="submit"
+            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          >
+            Submit Stock Count
+          </button>
+          <button
+            type="button"
+            className="w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            onClick={handleCancel}
+          >
+            Cancel
+          </button>
+        </div>
       </form>
       {message && (
-        <Typography
-          variant="body1"
-          sx={{
-            marginTop: 2,
-            color: message.includes('success') ? 'green' : 'red',
-          }}
+        <div
+          className={`mt-4 p-3 rounded-md ${message.includes('success') ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}
         >
           {message}
-        </Typography>
+        </div>
       )}
-    </Paper>
+    </div>
   );
 };
 

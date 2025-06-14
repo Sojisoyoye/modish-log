@@ -1,7 +1,6 @@
 import React from 'react';
-import { Button } from '@mui/material';
 import { useUser } from '../context/user.context';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import { ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline';
 import { useNavigate } from 'react-router-dom';
 
 interface SignOutButtonProps {
@@ -24,14 +23,13 @@ const SignOutButton: React.FC<SignOutButtonProps> = ({
   };
 
   return (
-    <Button
-      variant="contained"
-      color="inherit"
-      startIcon={<ExitToAppIcon />}
+    <button
+      className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
       onClick={handleSignOut}
     >
+      <ArrowRightOnRectangleIcon className="h-5 w-5 mr-2" />
       Sign Out
-    </Button>
+    </button>
   );
 };
 

@@ -1,21 +1,21 @@
 import React from 'react';
-import { Typography, Container } from '@mui/material';
 import { useUser } from '../context/user.context';
 
 const Home: React.FC = () => {
   const { user } = useUser();
 
   return (
-    <Container>
-      <Typography variant="h4" gutterBottom>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <h1 className="text-2xl font-bold text-gray-900 mb-4">
         One solution to manage sales and inventory.
-      </Typography>
+      </h1>
       {user && (
-        <Typography variant="body1">
-          Logged in as {user.username} (Role: {user.role})
-        </Typography>
+        <p className="text-base text-gray-700">
+          Logged in as <span className="font-medium">{user.username}</span>{' '}
+          (Role: <span className="font-medium">{user.role}</span>)
+        </p>
       )}
-    </Container>
+    </div>
   );
 };
 

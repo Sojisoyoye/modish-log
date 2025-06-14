@@ -1,27 +1,14 @@
 import React from 'react';
-import { Box, Container, Typography } from '@mui/material';
 
 const Footer: React.FC = () => {
   return (
-    <Box
-      component="footer"
-      sx={{
-        width: '100%',
-        position: 'fixed',
-        bottom: 0,
-        left: 0,
-        bgcolor: 'background.paper',
-        py: 2,
-        boxShadow: '0 -2px 4px rgba(0,0,0,0.1)',
-        zIndex: (theme) => theme.zIndex.drawer + 1,
-      }}
-    >
-      <Container maxWidth="lg">
-        <Typography variant="body2" color="text.secondary" align="center">
+    <footer className="w-full fixed bottom-0 left-0 bg-white py-2 shadow-[0_-2px_4px_rgba(0,0,0,0.1)] z-30">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <p className="text-sm text-gray-500 text-center">
           © 2025 Modish Log. All rights reserved.
-        </Typography>
-      </Container>
-    </Box>
+        </p>
+      </div>
+    </footer>
   );
 };
 
