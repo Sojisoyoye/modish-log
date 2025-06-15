@@ -1,25 +1,58 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class InitialSchema1718304000000000 implements MigrationInterface {
-  name = "InitialSchema1718304000000000";
+  name = 'InitialSchema1718304000000000';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(`
-      ALTER TABLE sale
-      DROP CONSTRAINT IF EXISTS "FK_a0a99bbb3f0ae6ecea2abc7393b";
+    const saleTableExists = await queryRunner.query(`
+      SELECT EXISTS (
+        SELECT FROM information_schema.tables 
+        WHERE table_schema = 'public' 
+        AND table_name = 'sale'
+      );
     `);
-    await queryRunner.query(`
-      ALTER TABLE stock_count
-      DROP CONSTRAINT IF EXISTS "FK_baf8540f10307eee0b63d7a1944";
+
+    if (saleTableExists[0].exists) {
+      await queryRunner.query(`
+        ALTER TABLE sale
+        DROP CONSTRAINT IF EXISTS "FK_a0a99bbb3f0ae6ecea2abc7393b";
+      `);
+    }
+
+    const stockCountTableExists = await queryRunner.query(`
+      SELECT EXISTS (
+        SELECT FROM information_schema.tables 
+        WHERE table_schema = 'public' 
+        AND table_name = 'stock_count'
+      );
     `);
-    await queryRunner.query(`
-      ALTER TABLE stock_balance_report
-      DROP CONSTRAINT IF EXISTS "FK_98787bf9ddde5ac731d38e93f46";
+
+    if (stockCountTableExists[0].exists) {
+      await queryRunner.query(`
+        ALTER TABLE stock_count
+        DROP CONSTRAINT IF EXISTS "FK_baf8540f10307eee0b63d7a1944";
+      `);
+    }
+
+    const stockBalanceReportTableExists = await queryRunner.query(`
+      SELECT EXISTS (
+        SELECT FROM information_schema.tables 
+        WHERE table_schema = 'public' 
+        AND table_name = 'stock_balance_report'
+      );
     `);
+
+    if (stockBalanceReportTableExists[0].exists) {
+      await queryRunner.query(`
+        ALTER TABLE stock_balance_report
+        DROP CONSTRAINT IF EXISTS "FK_98787bf9ddde5ac731d38e93f46";
+      `);
+    }
+
     // Create UUID extension if not exists
     await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`);
 
-    // Create user table
+ 
     await queryRunner.query(`
       CREATE TABLE IF NOT EXISTS "user" (
         "id" uuid NOT NULL DEFAULT uuid_generate_v4(),
@@ -31,7 +64,7 @@ export class InitialSchema1718304000000000 implements MigrationInterface {
       )
     `);
 
-    // Create product table
+  
     await queryRunner.query(`
       CREATE TABLE IF NOT EXISTS "product" (
         "id" uuid NOT NULL DEFAULT uuid_generate_v4(),
@@ -43,7 +76,6 @@ export class InitialSchema1718304000000000 implements MigrationInterface {
       )
     `);
 
-    // Create sale table
     await queryRunner.query(`
       CREATE TABLE IF NOT EXISTS "sale" (
         "id" uuid NOT NULL DEFAULT uuid_generate_v4(),
@@ -57,7 +89,6 @@ export class InitialSchema1718304000000000 implements MigrationInterface {
       )
     `);
 
-    // Create stock_count table
     await queryRunner.query(`
       CREATE TABLE IF NOT EXISTS "stock_count" (
         "id" uuid NOT NULL DEFAULT uuid_generate_v4(),
@@ -68,7 +99,6 @@ export class InitialSchema1718304000000000 implements MigrationInterface {
       )
     `);
 
-    // Create stock_balance_report table
     await queryRunner.query(`
       CREATE TABLE IF NOT EXISTS "stock_balance_report" (
         "id" uuid NOT NULL DEFAULT uuid_generate_v4(),
@@ -81,7 +111,6 @@ export class InitialSchema1718304000000000 implements MigrationInterface {
       )
     `);
 
-    // Add foreign key constraints
     await queryRunner.query(`
       ALTER TABLE "sale" ADD CONSTRAINT "FK_a0a99bbb3f0ae6ecea2abc7393b" 
       FOREIGN KEY ("productId") REFERENCES "product"("id") ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -99,18 +128,14 @@ export class InitialSchema1718304000000000 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    // Drop foreign keys first
     await queryRunner.query(
-      `ALTER TABLE "stock_balance_report" DROP CONSTRAINT "FK_98787bf9ddde5ac731d38e93f46"`
+      `ALTER TABLE "stock_balance_report" DROP CONSTRAINT "FK_98787bf9ddde5ac731d38e93f46"`,
     );
     await queryRunner.query(
-      `ALTER TABLE "stock_count" DROP CONSTRAINT "FK_baf8540f10307eee0b63d7a1944"`
+      `ALTER TABLE "stock_count" DROP CONSTRAINT "FK_baf8540f10307eee0b63d7a1944"`,
     );
-    await queryRunner.query(
-      `ALTER TABLE "sale" DROP CONSTRAINT "FK_a0a99bbb3f0ae6ecea2abc7393b"`
-    );
+    await queryRunner.query(`ALTER TABLE "sale" DROP CONSTRAINT "FK_a0a99bbb3f0ae6ecea2abc7393b"`);
 
-    // Drop tables
     await queryRunner.query(`DROP TABLE "stock_balance_report"`);
     await queryRunner.query(`DROP TABLE "stock_count"`);
     await queryRunner.query(`DROP TABLE "sale"`);
