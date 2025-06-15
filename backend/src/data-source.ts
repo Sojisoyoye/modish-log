@@ -28,8 +28,9 @@ export const AppDataSource = new DataSource({
       }),
   entities: [User, Product, Sale, StockCount, StockBalanceReport],
   synchronize: false,
-  migrations: [
-    "dist/migrations/*", // For production
+  migrations: process.env.NODE_ENV === 'production' ? [
+    "dist/migrations/*.js", // For production
+  ] : [
     "src/migrations/*.ts", // For development
   ],
   migrationsTableName: "migrations",
