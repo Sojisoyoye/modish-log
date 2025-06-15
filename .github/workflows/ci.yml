@@ -62,7 +62,7 @@ jobs:
 
       - name: Run Tests
         working-directory: ${{ matrix.app }}
-        run: npm test -- --passWithNoTests
+        run: npx jest --config=./jest.config.js --passWithNoTests
         env:
           CI: true
 
