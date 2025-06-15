@@ -1,9 +1,9 @@
 [phases.setup]
 nixPkgs = ["nodejs"]
-commands = ["node -v"] 
+commands = ["node -v"]
 
 [phases.build]
-commands = ["npm install", "npm run build"]
+commands = ["npm ci", "npm run build"]
 
 [phases.start]
 command = "node dist/main.js"
