@@ -28,7 +28,10 @@ export const AppDataSource = new DataSource({
       }),
   entities: [User, Product, Sale, StockCount, StockBalanceReport],
   synchronize: false,
-  migrations: ["src/migrations/*.ts"],
+  migrations: [
+    "dist/migrations/*", // For production
+    "src/migrations/*.ts", // For development
+  ],
   migrationsTableName: "migrations",
   migrationsRun: true,
 });

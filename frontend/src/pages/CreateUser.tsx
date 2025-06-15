@@ -6,7 +6,7 @@ import { useUser } from '../context/user.context';
 const CreateUser: React.FC = () => {
   const { user } = useUser();
 
-  if (user?.role !== 'Admin') {
+  if (user?.role !== 'admin') {
     return <Navigate to="/" />;
   }
 

@@ -1,7 +1,8 @@
 version: "3.8"
 services:
   db:
-    image: postgres:13
+    image: postgres:latest
+    env_file: ./backend/.env
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -12,9 +13,9 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   backend:
+    container_name: modish-log-backend
     build:
       context: ./backend
-      dockerfile: Dockerfile
       target: development
     ports:
       - "3001:3001"
@@ -24,26 +25,22 @@ services:
     depends_on:
       - db
     environment:
-      DB_HOST: db
-      DB_PORT: 5432
-      DB_USERNAME: postgres
-      DB_PASSWORD: postgres
-      DB_DATABASE: inventory
-      NODE_ENV: development
-    command: npm run start:dev
+      - NODE_ENV=development
 
-  # frontend:
-  #   build: ./frontend
-  #   ports:
-  #     - "3000:3000" # Host:Container port
-  #   volumes:
-  #     - ./frontend:/app # Sync local code
-  #     - /app/node_modules # Isolate container's node_modules
-  #   environment:
-  #     - NODE_ENV=development
-  #     - CHOKIDAR_USEPOLLING=true # Required for file watching in Docker
-  #   command: sh -c "npm install && npm start"
-  #   stdin_open: true # Needed for React's interactive dev server
+  frontend:
+    container_name: modish-log-frontend
+    build:
+      context: ./frontend
+      target: development
+    ports:
+      - "3002:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - backend
 
 volumes:
   postgres_data:

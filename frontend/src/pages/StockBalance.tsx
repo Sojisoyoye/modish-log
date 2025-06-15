@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Button, Typography } from '@mui/material';
 import ReportHistoryTable from '../components/ReportHistoryTable';
 import { ReportHistoryItem } from '../dto/dto';
 import { fetchReportHistory } from '../api/api';
@@ -29,22 +28,23 @@ const StockBalance: React.FC = () => {
   //     }, []);
 
   return (
-    <>
+    <div className="container mx-auto px-4 py-6">
       {/* this is to fetch the stock balance report history */}
-      <Typography variant="h5" gutterBottom style={{ marginTop: '2rem' }}>
+      <h2 className="text-xl font-semibold mt-8 mb-4">
         Stock Balance Report History
-      </Typography>
-      <Button
-        variant="contained"
-        color="secondary"
+      </h2>
+      <button
+        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         onClick={handleFetchReportHistory}
       >
         Fetch Report History
-      </Button>
+      </button>
       {reportHistory.length > 0 && (
-        <ReportHistoryTable history={reportHistory} />
+        <div className="mt-6">
+          <ReportHistoryTable history={reportHistory} />
+        </div>
       )}
-    </>
+    </div>
   );
 };
 

@@ -1,0 +1,109 @@
+name: CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      deploy_env:
+        description: "Environment to deploy to"
+        required: true
+        default: "acceptance"
+        type: choice
+        options:
+          - acceptance
+          - sandbox
+          - production
+
+jobs:
+  deploy-backend:
+    name: Deploy Backend to Render
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set Environment Variables for Render
+        id: env-vars
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            ENV="${{ github.event.inputs.deploy_env }}"
+          else
+            ENV="acceptance"
+          fi
+
+          if [ "$ENV" == "production" ]; then
+            echo "service_id=${{ secrets.RENDER_SERVICE_ID_PRODUCTION }}" >> "$GITHUB_OUTPUT"
+            echo "environment=production" >> "$GITHUB_OUTPUT"
+          elif [ "$ENV" == "sandbox" ]; then
+            echo "service_id=${{ secrets.RENDER_SERVICE_ID_SANDBOX }}" >> "$GITHUB_OUTPUT"
+            echo "environment=sandbox" >> "$GITHUB_OUTPUT"
+          else
+            echo "service_id=${{ secrets.RENDER_SERVICE_ID_ACCEPTANCE }}" >> "$GITHUB_OUTPUT"
+            echo "environment=acceptance" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Deploy to Render
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+          SERVICE_ID: ${{ steps.env-vars.outputs.service_id }}
+        run: |
+          echo "Deploying backend to Render (${{ steps.env-vars.outputs.environment }})..."
+          curl -X POST \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer $RENDER_API_KEY" \
+            -d '{"clearCache": true}' \
+            "https://api.render.com/v1/services/$SERVICE_ID/deploys"
+
+  deploy-frontend:
+    name: Deploy Frontend to Vercel
+    needs: deploy-backend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+
+      - name: Set Environment Variables for Vercel
+        id: env-vars
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            ENV="${{ github.event.inputs.deploy_env }}"
+          else
+            ENV="acceptance"
+          fi
+
+          if [ "$ENV" == "production" ]; then
+            echo "project_id=${{ secrets.VERCEL_PROJECT_ID }}" >> "$GITHUB_OUTPUT"
+            echo "environment=production" >> "$GITHUB_OUTPUT"
+            echo "api_url=${{ secrets.REACT_APP_API_URL_PRODUCTION }}" >> "$GITHUB_OUTPUT"
+          elif [ "$ENV" == "sandbox" ]; then
+            echo "project_id=${{ secrets.VERCEL_PROJECT_ID_SANDBOX }}" >> "$GITHUB_OUTPUT"
+            echo "environment=sandbox" >> "$GITHUB_OUTPUT"
+            echo "api_url=${{ secrets.REACT_APP_API_URL_SANDBOX }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "project_id=${{ secrets.VERCEL_PROJECT_ID_ACCEPTANCE }}" >> "$GITHUB_OUTPUT"
+            echo "environment=acceptance" >> "$GITHUB_OUTPUT"
+            echo "api_url=${{ secrets.REACT_APP_API_URL_ACCEPTANCE }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel
+
+      - name: Deploy to Vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ steps.env-vars.outputs.project_id }}
+          ENVIRONMENT: ${{ steps.env-vars.outputs.environment }}
+          API_URL: ${{ steps.env-vars.outputs.api_url }}
+        run: |
+          echo "Deploying frontend to Vercel ($ENVIRONMENT)..."
+          cd frontend
+          vercel deploy --token "$VERCEL_TOKEN" --prod \
+            --scope "$VERCEL_ORG_ID" \
+            --env REACT_APP_API_URL="$API_URL"

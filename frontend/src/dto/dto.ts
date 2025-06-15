@@ -1,32 +1,10 @@
-export class Product {
+export interface Product {
   id: string;
   color: string;
   size: string;
   quantity: number;
   price: number;
-
-  constructor(
-    id: string,
-    color: string,
-    size: string,
-    quantity: number,
-    price: number
-  ) {
-    this.id = id;
-    this.color = color;
-    this.size = size;
-    this.quantity = quantity;
-    this.price = price;
-  }
 }
-
-// class Product {
-//   id!: string;
-//   color!: string;
-//   size!: string;
-//   price!: number;
-//   quantity!: number;
-// }
 
 export interface Sale {
   id: string;

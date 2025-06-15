@@ -1,0 +1,147 @@
+<PRD>
+
+# Modish Log PRD
+
+## 1. Introduction
+
+Modish Log is a sales and inventory management application designed to streamline order processing, maintain accurate stock levels, and generate actionable reports. This document outlines the product requirements for the Minimum Viable Product (MVP) and planned enhancements, providing a clear roadmap for development, testing, and deployment.
+
+## 2. Product overview
+
+Modish Log enables sales agents to create and track sales, while administrators manage products, users, and system settings. Core capabilities include sale lifecycle management, inventory reconciliation, user authentication, and comprehensive reporting. The frontend is built in React and will migrate from Material UI to Tailwind CSS with React Query; the backend uses NestJS and PostgreSQL, to be deployed on Render with Docker and GitHub Actions CI.
+
+## 3. Goals and objectives
+
+* **Reduce stock discrepancies** by automating reconciliation and flagging overages/shortages.
+* **Improve sales throughput** by simplifying sale entry and status updates.
+* **Ensure data integrity** via validation rules (non-zero quantities, no negative values).
+* **Enable real-time insights** through daily sales and stock value reports.
+* **Enhance security** with robust authentication, role-based access, and audit logs.
+* **Seamless migration** of existing codebase (React/MUI & NestJS/PostgreSQL) to new infrastructure on Render.
+
+## 4. Target audience
+
+* **Sales users** who need a fast, intuitive interface to record transactions.
+* **Inventory managers** responsible for stock counts and adjustments.
+* **Administrators** who configure products, manage user roles, and review audit logs.
+* **Business analysts** requiring daily and historical sales reports for decision making.
+
+## 5. Features and requirements
+
+### 5.1 sales management
+
+| Feature                                      | Status |
+| -------------------------------------------- | ------ |
+| Create sale                                  | ✅      |
+| Get all sales                                | ✅      |
+| Get single sale                              | ✅      |
+| Edit sale (products, qty, price, color/size) | ✅      |
+| Delete sale                                  | ✅      |
+| Update sale status (paid/unpaid)             | ✅      |
+| Add comments to sale                         | ✅      |
+| view sale history by product                 | ◻      |
+| filter sales by date                         | ◻      |
+| attach payment receipt                       | ◻      |
+
+### 5.2 inventory views
+
+* **View all products** (display only “quantity left”)
+* **View single product** (display only “quantity left”)
+
+### 5.3 product management
+
+* Create / add product ✅
+* Get single product ✅
+* Get all products ✅
+* Edit product ✅
+* Delete product ✅
+* Add quantity to existing product ◻
+* Product price update (must not affect historical sales values) ◻
+
+### 5.4 user management
+
+* Create user ✅
+* Get all users ✅
+* Get single user ✅
+* Edit user (role, password reset) ◻
+* Deactivate / delete user ◻
+* List users UI ◻
+* Admin actions on user list (role edit, reset password) ◻
+
+### 5.5 authentication & security
+
+* User login ✅
+* User logout ✅
+* Password reset ◻
+* validate non-zero sale quantity ◻
+* validate no negative values (sales & products) ◻
+
+### 5.6 stock-taking / reconciliation
+
+* enter counted goods (flag shortages/overages) ✅
+* history of stock changes (date-stamped audit log) ◻
+
+### 5.7 reports & metrics
+
+* total stock value (remaining goods) ◻
+* total sales per day ◻
+
+## 6. User stories and acceptance criteria
+
+| ID     | User story                                                                                                              | Acceptance criteria                                                                                                                  |
+| ------ | ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| ST-101 | As a sales user, I want to create a sale so that I can record a customer transaction.                                   | - Sale record saved with unique ID<br>- Required fields validated (product, quantity >0)<br>- Stock decreased accordingly            |
+| ST-102 | As a sales user, I want to view all sales so that I can track transaction history.                                      | - Sales list displays date, products, quantities, status<br>- Pagination or infinite scroll implemented                              |
+| ST-103 | As a sales user, I want to edit a sale to correct product details, pricing, or attributes.                              | - Changes persisted<br>- Historical record retained in audit log<br>- Stock adjustments recalculated if quantity changes             |
+| ST-104 | As a sales user, I want to filter sales by date so that I can analyze transactions in a specific period.                | - Date-picker UI filters list<br>- Query returns only matching records                                                               |
+| ST-105 | As a sales user, I want to attach a payment receipt to a sale so that proof of payment is stored.                       | - File upload accepts PDF/image<br>- Receipt linked to sale record                                                                   |
+| ST-106 | As an admin, I want to add quantity to an existing product so that I can restock items.                                 | - Input accepts positive integer<br>- Product’s quantity updated<br>- Stock change event logged                                      |
+| ST-107 | As an admin, I want to update product price without affecting past sales so that historical reports remain accurate.    | - Price update only applies to new sales<br>- Past sale records preserve original sale price                                         |
+| ST-108 | As an admin, I want to create and deactivate users so that I can manage system access.                                  | - New user account created with role assignment<br>- Deactivated user cannot log in                                                  |
+| ST-109 | As a user, I want to reset my password so that I can regain access if I forget it.                                      | - Email link with secure, time-limited token sent<br>- New password meets complexity rules                                           |
+| ST-110 | As a user, I want to log in and log out securely so that my session is protected.                                       | - JWT tokens issued on login<br>- Logout invalidates token                                                                           |
+| ST-111 | As an inventory manager, I want to enter physical stock counts so that I can reconcile system inventory.                | - Counted vs. system quantity comparison highlights discrepancies<br>- Adjustment events logged                                      |
+| ST-112 | As a business analyst, I want a report of total sales per day so that I can measure daily performance.                  | - Daily totals aggregated<br>- Exportable to CSV                                                                                     |
+| ST-113 | As a business analyst, I want to see the total stock value so that I can assess remaining asset worth.                  | - Quantity × unit price summed for all products                                                                                      |
+| ST-114 | As a developer, I want a clear database schema so that I can model entities for sales, products, users, and audit logs. | - ER diagram defines tables: users, roles, products, sales, sale\_items, stock\_events, receipts<br>- Referential integrity enforced |
+| ST-115 | As a security officer, I want role-based access control so that only authorized users perform admin tasks.              | - Permissions enforced at API layer<br>- Unauthorized requests return HTTP 403                                                       |
+| ST-116 | As a user, I want form validation to prevent negative or zero values so that data integrity is maintained.              | - Client- and server-side validation<br>- Error messages displayed for invalid inputs                                                |
+| ST-117 | As a user, I want to view sale history for a product so that I can trace stock movements over time.                     | - Product detail page shows list of sale dates and quantities                                                                        |
+| ST-118 | As a CI engineer, I want GitHub Actions to run tests and build Docker images so that deployments are automated.         | - Pipeline triggers on push to main<br>- Builds and pushes Docker images to registry                                                 |
+
+## 7. Technical requirements / stack
+
+| Layer          | Technology                          |
+| -------------- | ----------------------------------- |
+| Frontend       | React, Tailwind CSS, React Query    |
+| Backend        | NestJS, TypeORM                     |
+| Database       | PostgreSQL                          |
+| Authentication | JWT, OAuth2 (optional)              |
+| Hosting        | Render (backend), Vercel (frontend) |
+| CI/CD          | GitHub Actions, Docker              |
+
+* **Database modeling**: use migrations, TypeORM entities, and enforce referential integrity.
+* **API design**: REST endpoints, OpenAPI documentation.
+* **Validation**: class-validator on DTOs, custom pipes for negative/zero checks.
+* **File storage**: receipts stored in cloud bucket (e.g. AWS S3) with URLs in DB.
+* **Logging**: centralized logging service (e.g. Winston).
+* **Monitoring**: health checks, performance metrics.
+
+## 8. Design and user interface
+
+* **Style guide**: Tailwind utility classes, consistent spacing, 2xl rounded corners, soft shadows.
+* **Layout**:
+
+  * Sidebar navigation: Sales, Products, Inventory, Reports, Users.
+  * Top bar: search, user profile, logout.
+* **Components**:
+
+  * **Data tables** for lists (sortable columns, pagination).
+  * **Forms** with inline validation and error messages.
+  * **Modals** for create/edit actions.
+  * **Date pickers** for filters.
+  * **Badges** for sale status (paid/unpaid).
+* **Responsive**: mobile-first design, collapsible sidebar.
+* **Accessibility**: ARIA labels, keyboard navigation support.
+
+</PRD>

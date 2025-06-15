@@ -1,6 +1,5 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import Home from '../pages/Home';
 import CreateUser from '../pages/CreateUser';
 import ProtectedRoute from '../components/ProtectedRoute';
 import SignIn from '../pages/SignIn';
@@ -14,6 +13,7 @@ import StockCount from '../pages/StockCount';
 import GenerateStockBalance from '../pages/Stock';
 import StockBalance from '../pages/StockBalance';
 import Users from '../pages/Users';
+import Home from '../pages/Home';
 
 const AppRoutes: React.FC = () => {
   return (
@@ -24,7 +24,7 @@ const AppRoutes: React.FC = () => {
       {/* Protected Routes */}
       <Route
         element={
-          <ProtectedRoute allowedRoles={['Admin', 'Manager', 'Salesperson']} />
+          <ProtectedRoute allowedRoles={['admin', 'manager', 'salesperson']} />
         }
       >
         <Route path="/" element={<Home />} />
@@ -35,7 +35,7 @@ const AppRoutes: React.FC = () => {
       </Route>
 
       {/* Admin-Only Routes */}
-      <Route element={<ProtectedRoute allowedRoles={['Admin']} />}>
+      <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
         <Route path="/create-user" element={<CreateUser />} />
         <Route path="/users" element={<Users />} />
         <Route path="/add-product" element={<AddProduct />} />

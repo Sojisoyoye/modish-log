@@ -32,25 +32,28 @@ const Users: React.FC = () => {
   };
 
   return (
-    <div style={{ maxWidth: 600, margin: '2rem auto' }}>
-      <h2>User Management</h2>
-      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+    <div className="max-w-[600px] mx-auto my-8">
+      <h2 className="text-2xl font-bold mb-4">User Management</h2>
+      <table className="w-full border-collapse">
         <thead>
           <tr>
-            <th style={{ borderBottom: '1px solid #ccc' }}>Username</th>
-            <th style={{ borderBottom: '1px solid #ccc' }}>Role</th>
-            <th style={{ borderBottom: '1px solid #ccc' }}>Actions</th>
+            <th className="border-b border-gray-300 py-2 text-left">
+              Username
+            </th>
+            <th className="border-b border-gray-300 py-2 text-left">Role</th>
+            <th className="border-b border-gray-300 py-2 text-left">Actions</th>
           </tr>
         </thead>
         <tbody>
           {users.map((user) => (
-            <tr key={user.id}>
-              <td style={{ padding: '8px' }}>{user.username}</td>
-              <td style={{ padding: '8px' }}>
+            <tr key={user.id} className="hover:bg-gray-50">
+              <td className="p-2">{user.username}</td>
+              <td className="p-2">
                 {editingId === user.id ? (
                   <select
                     value={editRole}
                     onChange={(e) => setEditRole(e.target.value)}
+                    className="border border-gray-300 rounded px-2 py-1 w-full"
                   >
                     {roles.map((role) => (
                       <option key={role} value={role}>
@@ -62,18 +65,33 @@ const Users: React.FC = () => {
                   user.role
                 )}
               </td>
-              <td style={{ padding: '8px' }}>
+              <td className="p-2">
                 {editingId === user.id ? (
                   <>
-                    <button onClick={() => handleSave(user.id)}>Save</button>
-                    <button onClick={() => setEditingId(null)}>Cancel</button>
+                    <button
+                      onClick={() => handleSave(user.id)}
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded mr-2"
+                    >
+                      Save
+                    </button>
+                    <button
+                      onClick={() => setEditingId(null)}
+                      className="bg-gray-400 hover:bg-gray-500 text-white px-3 py-1 rounded"
+                    >
+                      Cancel
+                    </button>
                   </>
                 ) : (
                   <>
-                    <button onClick={() => handleEdit(user)}>Edit</button>
+                    <button
+                      onClick={() => handleEdit(user)}
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded mr-2"
+                    >
+                      Edit
+                    </button>
                     <button
                       onClick={() => handleDelete(user.id)}
-                      style={{ marginLeft: 8, color: 'red' }}
+                      className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded"
                     >
                       Delete
                     </button>
@@ -84,7 +102,7 @@ const Users: React.FC = () => {
           ))}
           {users.length === 0 && (
             <tr>
-              <td colSpan={3} style={{ textAlign: 'center', padding: '16px' }}>
+              <td colSpan={3} className="text-center p-4 text-gray-500">
                 No users found.
               </td>
             </tr>
