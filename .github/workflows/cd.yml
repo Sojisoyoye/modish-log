@@ -43,17 +43,19 @@ jobs:
             echo "environment=acceptance" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Deploy to Render
+      - name: Install render CLI
+        run: |
+          curl -L https://github.com/render-oss/cli/releases/download/v1.1.0/cli_1.1.0_linux_amd64.zip -o render.zip
+          unzip render.zip
+          sudo mv cli_v1.1.0 /usr/local/bin/render
+      - name: Trigger deploy with Render CLI
         env:
           RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
-          SERVICE_ID: ${{ steps.env-vars.outputs.service_id }}
+          CI: true
         run: |
-          echo "Deploying backend to Render (${{ steps.env-vars.outputs.environment }})..."
-          curl -X POST \
-            -H "Content-Type: application/json" \
-            -H "Authorization: Bearer $RENDER_API_KEY" \
-            -d '{"clearCache": true}' \
-            "https://api.render.com/v1/services/$SERVICE_ID/deploys"
+          echo "Logging in to Render..."
+          echo "Deploying backend to Render (${{ steps.env-vars.outputs.environment }})..."  
+          render deploys create ${{ steps.env-vars.outputs.service_id }} --output json --confirm
 
   deploy-frontend:
     name: Deploy Frontend to Vercel
@@ -92,25 +94,13 @@ jobs:
             echo "environment=acceptance" >> "$GITHUB_OUTPUT"
             echo "api_url=${{ secrets.REACT_APP_API_URL_ACCEPTANCE }}" >> "$GITHUB_OUTPUT"
           fi
-
-      - name: Install Vercel CLI
-        run: npm install -g vercel
-
       - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ steps.env-vars.outputs.project_id }}
+          vercel-args: "--prod"
         env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ steps.env-vars.outputs.project_id }}
-          ENVIRONMENT: ${{ steps.env-vars.outputs.environment }}
-          API_URL: ${{ steps.env-vars.outputs.api_url }}
-        run: |
-          echo "Deploying frontend to Vercel ($ENVIRONMENT)..."
-          # Navigate to frontend directory and deploy from there
-          cd frontend
-          # Create a .vercel directory if it doesn't exist
-          mkdir -p .vercel
-          # Create project.json file with project and org details
-          echo '{"orgId":"'$VERCEL_ORG_ID'","projectId":"'$VERCEL_PROJECT_ID'"}' > .vercel/project.json
-          # Deploy using the vercel.json in this directory
-          vercel --token "$VERCEL_TOKEN" --prod --yes \
-            --env REACT_APP_API_URL="$API_URL"
+          REACT_APP_API_URL: ${{ steps.env-vars.outputs.api_url }}
+          REACT_APP_ENV: ${{ steps.env-vars.outputs.environment }}
