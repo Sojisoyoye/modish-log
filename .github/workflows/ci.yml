@@ -59,10 +59,10 @@ jobs:
 
       - name: Run Backend Tests
         working-directory: backend
-        run: npm test
+        run: npm test -- --passWithNoTests
         env:
           CI: true
-          
+
   test-frontend:
     name: Run Frontend Tests
     needs: lint

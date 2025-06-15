@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "start": "ts-node src/main.ts",
-    "start:dev": "nest start --watch",
-    "build": "nest build",
+    "start:dev": "npx nest start --watch",
+    "build": "npx nest build",
     "start:prod": "node dist/main.js",
     "test": "jest --config jest.config.ts",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
