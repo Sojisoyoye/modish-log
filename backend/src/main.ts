@@ -51,6 +51,8 @@ async function bootstrap() {
     app.enableCors({
       origin: [
         "https://modish-log.vercel.app",
+        "https://modish-log-acceptance.vercel.app",
+        "https://modish-log-sandbox.vercel.app",
         "http://localhost:3002",
         "http://localhost:3000",
       ],
