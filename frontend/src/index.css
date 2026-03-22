@@ -1,9 +1,7 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
-/* Custom Scrollbar Styles */
-@layer utilities {
+@import "tailwindcss";
+
+/* @layer utilities {
   .custom-scrollbar::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -23,9 +21,8 @@
     background: #555;
   }
 
-  /* For Firefox */
   .custom-scrollbar {
     scrollbar-width: thin;
     scrollbar-color: #888 #f1f1f1;
   }
-}
+} */
